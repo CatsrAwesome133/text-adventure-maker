@@ -1,0 +1,314 @@
+#FFFF
+1 > what were you even doing to cause this??
+You were looking for your friend, right? Atlas, the stupid little artist. They're really smart, but... not the most present. And that... meant you got kidnapped? Oh for Wyrm's sake. You should at least try to get out.
+[EEEE]
+
+2 > what in Manku happened?
+You had been wandering around the city, looking for your friend Atlas... When something hit you over the head. Gods, did you get kidnapped??
+You stand up and glare. Wow, this place looks cursed.
+
+
+#EEEE
+1 > look around
+You're trapped in a jar. The glass is thick and hard to break, so you don't know if you'll  be getting out any time soon.
+The room you're in is very blue and very bright. The floor is littered with shrunken corpses.
+[A]
+
+
+
+#A
+a1> say "well this sucks"
+"well this sucks."
+Maybe there's something you can do to avoid that fate...
+[B]
+
+a2> panic
+You start hyperventillating. There's no way you'll meet the same fate as those corpses!
+[B]
+
+a3> surely there's a way out!
+You tap at the glass. It makes a nice sound. Ding! But that doesn't help you.
+[C]
+
+
+
+#B
+b1> is there really no way out?
+You tap at the glass. It makes a nice sound. Ding! But that doesn't help you.
+[C]
+
+
+
+#C
+c1 > tap again
+You tap again. This time, glowing white runes appear on the inside of the glass.
+Ha!
+So maybe you just need to get rid of these runes?
+[D]
+
+c2 > frown at it
+(random text)
+You frown at the glass. Stupid glass.
+You frown at the glass. Its glass.
+You glare at the glass. It glares back.
+[C]
+
+
+
+#D
+d1 > punch it
+You punch the glass. It rings, and the runes glow again. 
+Your fist hurts.
+[E]
+
+d2 > scratch it
+[F]
+
+d3 > try to analyze them
+You take a step closer and study the runes carefully.
+...
+You have no idea what you're looking at.
+
+
+
+#E fist
+e1 > punch it harder!
+
+e2 > nevermind, let's try something else
+(random text)
+You look at the glass for what feels like the hundreth time today.
+You look at the glass again.
+[D]
+
+
+
+#F sctatch
+f1 > it works! (0.1)
+The runes shimmer and vanish with a scream. Looks like you broke them!
+[I]
+
+f2 > nope (0.9)
+The runes glow. Nothing happens.
+
+
+
+#G analyze
+g1 > damn
+You take as much of a step back as you can, and look for places where you could just cut the sequence.
+...
+Aha! There's a very line-like line that could be forming a sentence!
+[H]
+
+
+
+#H
+h1 > scratch across the line
+The runes shimmer and vanish with a scream. Looks like you broke them!
+[I]
+
+h2 > punch it!!
+The runes shimmer, but stay. Owie.
+[H]
+
+
+
+#I
+i1 > punch the glass
+You punch the glass. It shatters, suprisingly easily.
+[J]
+
+i2 > kick the glass
+You kick the glass. It shatters, suprisingly easily.
+[J]
+
+
+
+#J
+j1 > get the heck outta here!
+Yeah... you're out. Time to leave! And never come back! You duck into the shadows and run as fast as you can.
+[K]
+
+j2 > look for your friend
+You slip into the shadows and search for Atlas.
+You can't see him anywhere...
+[Q]
+
+
+#K
+k1 > oh gods this is a maze
+Ugh, tunnels. You know there are nicer places to be, but you can't remember...
+[L]
+
+
+
+#L
+l1 > whatever
+You keep running.
+[M]
+
+l2 > think harder...
+[N]
+
+l3 > you're going to sue whoever designed this
+And they'll regret it!
+[M]
+
+
+
+#M
+m1 > you're free! (1.0)
+Finally, you see a door you recognize. It's the other side of the Sanctum's headquarters! The gits, trying to kidnap you!
+[END1]
+
+
+
+#N
+n1 > keep going (0.4)
+You wrack your brain for information, but you come up empty. 
+Resolving to figure this out later, you shut off your thoughts and keep on running.
+[M]
+
+n2 > rip (0.6)
+As you think, your running slows. You've barely noticed, but the warrior chasing you has!
+[O]
+
+#O
+o1 > shi- crap.
+You really doubt your ability to fight that monster of a being. You make a sharp turn, trying to evade him, but it's too late.
+A glowing white dart appears in your periphery before the world vanishes again.
+[CAP]
+
+o2 > RUN HARDER!!
+You speed up as much as you can, but it's too late.
+In seconds the warrior catches up to you and a glowing white dart appears in your periphery before the world vanishes again.
+[CAP]
+
+o3 > quick! hide!
+You roll behind a particularly large desk, hold your breath, and pray.
+[NORMAN]
+
+
+
+#NORMAN
+n1 > rip2 (0.5)
+The warrior seems to find you immediatley. You try to run again, but it's too late.
+A glowing white dart appears in your periphery before the world vanishes again.
+[CAP]
+
+n2 > safe (0.4)
+The warrior runs right past you, taking a turn you'd noticed only seconds ago. You let out your breath and cautiously emerge.
+[P]
+
+n3 > norman (0.1)
+The warrior seems to find you immediatley. Before you can do anything, he speaks:
+"Hey man, I don't mean any harm. You're looking for the other moth, right?"
+[NO1]
+
+
+
+#P
+p1 > run for it!
+You speed off in your previous direction after making sure there's nobody around. Phew!
+You keep running, making sure to not stop again.
+[M]
+
+
+
+#NO1
+n1 > "Screw off"
+The warrior looks offended. The nerve! Like he wasn't chasing you three seconds ago?
+"Fine," he says. And leaves.
+...
+Wait, what?
+[P]
+
+n2 > "Yeah, why?"
+The warrior looks a bit defeated.
+"I never really liked all the kidnappings, y'know? And since you got out somehow, and I know where that other guy is, maybe we can break 'em out together and ditch the place?"
+[NO2]
+
+n3 > "I was running for my life, dude."
+[NORANDO]
+
+
+
+#NORANDO
+1 > gogo (0.8)
+He looks... embarrased? 
+"Ah, right. I'll, uh, let you get back to that."
+He... leaves. Straight-up vanishes. Possibly teleports, but that shouldnt be possible.
+Time to go, then?
+[P]
+
+2 > cmonnnn (0.2)
+He looks embarrased, but then seems to gain confidence.
+"Right. But, well, I was thinking, since you got out somehow, and I know where that other guy is, maybe we can break 'em out together and ditch the place?"
+He pauses.
+"Not like I liked the literal crime, hah."
+[NO2]
+
+
+
+#NO2
+n1 > "Let's go, then."
+You walk together to a room not unlike the one you woke up in. Dead, mangled bodies and all. Atlas sits in a jar, looking up blankly.
+[NO3]
+
+n2 > "Really, now? You guys kidnapped me, and now you want me to help with... whatever that is?"
+"Hey! I said I didn't like it!" The warrior complains.
+"You didn't even apologise."
+He huffs.
+"Whatever, I'll just get out of your way."
+He does exactly as he says, and... vanishes. Yeah, sure.
+You'd better get going.
+[P]
+
+
+
+#NO3
+n1 > "Again? Really?"
+Atlas seems to hear you, because he yelps and cries "What! No!"
+You snort to cover a short laugh, and glare at the runes on this jar.
+[NO4]
+
+
+
+#NO4
+n1 > time to find a line again...
+You stare until you find another line like the one you broke in your jar.
+You point it out to Atlas, and tell him to sctatch it out.
+When they do, you kick the jar.
+"Damn," the warrior says.
+"What are you waiting for? Let's get out!"
+...You might be a bit high on adrenaline
+[NO5]
+
+
+
+#NO5
+n1 > let the warrior lead you out
+You follow the warrior as he takes you and Atlas out of the area.
+...Through the Sanctum's main doors.
+Those whiny maggots! They're supposed to be researchers!
+[END2]
+
+
+
+#Q
+q1 > keep looking
+It's at least an hour before you find any leads. By now, you're tired and slow, and you've found two corpse-rooms with four prisoners.
+...None of which are Atlas.
+[R]
+
+
+
+#R
+r1 > "I swear, the gods have forsaken me"
+The moment a word leaves your mouth, the hairs on your back stand up. You're in danger.
+But you can barely process that before a glowing white dart appears in your periphery and you're lost to the world.
+[CAP]
+
+
+
+#CAP
+c1 > This is a wip
