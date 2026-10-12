@@ -1,3 +1,8 @@
+RED = "\033[31m"
+YELLOW = "\033[33m"
+RESET = "\033[0m"
+
+
 path = input()
 
 if "/" in path:
@@ -15,13 +20,15 @@ with open(path, "r") as original:
     last_d = -1
     counting = True
     for line in original:
-        print(current_d, " ", last_d)
         if str(line)[0] == "#":
             last_d += 1
             counting = True
+            print(RED,str(line),RESET)
         if current_d == last_d:
-            print(line)
-            print(current_d)
+            if " > " in str(line):
+                print(YELLOW,str(line),RESET)
+            else:
+                print(line)
         if str(line).strip() == "" and counting:
             current_d += 1
             counting = False
