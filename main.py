@@ -60,6 +60,7 @@ with open(path, "r") as original:
                 current_key = line[1:].split(" ")[0]
                 # adds the ID of the current decision to the master list
                 all_decisions[current_key] = '' # single quotes to be replaced later
+                current[current_key] = {}
                 print("Key: ", current_key)
         except IndexError:
             pass
@@ -68,21 +69,25 @@ with open(path, "r") as original:
         if current_d < last_d:
             try: 
                 # detects new option
-                if " > " in line:
+                if ">" in line:
                     text_count = 0
                     text_string = ""
                     break_count = 0
                     print(YELLOW,line,RESET)
-                    options = line.split(" > ")
+                    options = line.split(">")
 
                     # takes the option id
-                    current_option = options[0]
+                    current_option = options[0].strip()
 
                     # takes the option name
                     current_name = options[1].split("(")[0].strip()
 
                     # prints them
                     print("Option: ", current_option,"Name: ", current_name)
+
+                    # assigning stuff
+                    current[current_key][current_option] = ["","",""]
+                    current[current_key][current_option][0] = current_name
 
                     # detects wether there's a chance value
                     if "(" in options[1]:
@@ -100,6 +105,13 @@ with open(path, "r") as original:
                     # prints the line & the fetched ID
                     print(GREEN,line,RESET)
                     print("Next decision: ", next_decision)
+
+                    # assigning stuff
+                    current[current_key][current_option][2] = next_decision
+                    if current_chance != None:
+                        current[current_key][current_option].append(current_chance)
+
+                    print(current)
                 
                 # detects narration text
                 elif line.strip() != "" and line[0] != f"{new_decision_indicator}":
@@ -113,6 +125,9 @@ with open(path, "r") as original:
                         print(text_string)
                     except NameError:
                         pass
+
+                    # assigning stuff
+                    current[current_key][current_option][1] = text_string
                 else:
                     pass
             except IndexError:
