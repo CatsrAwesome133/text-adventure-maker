@@ -62,28 +62,37 @@ with open(path, "r") as original:
         # only counts when there is a new decision
         if current_d < last_d:
             # detects new option
-            if " > " in line:
-                break_count = 0
-                print(YELLOW,line,RESET)
-                options = line.split(" > ")
+            try: 
+                if " > " in line:
+                    break_count = 0
+                    print(YELLOW,line,RESET)
+                    options = line.split(" > ")
 
-                # takes the option id
-                current_option = options[0]
+                    # takes the option id
+                    current_option = options[0]
 
-                # takes the option name
-                current_name = options[1].split("(")[0].strip()
+                    # takes the option name
+                    current_name = options[1].split("(")[0].strip()
 
-                # prints them
-                print("Option: ", current_option,"Name: ", current_name)
+                    # prints them
+                    print("Option: ", current_option,"Name: ", current_name)
 
-                # detects wether there's a chance value
-                if "(" in options[1]:
-                    # registers and prints it
-                    current_chance = options[1].split("(")[1].replace(")","").strip()
-                    print("Chance: ",current_chance)
+                    # detects wether there's a chance value
+                    if "(" in options[1]:
+                        # registers and prints it
+                        current_chance = options[1].split("(")[1].replace(")","").strip()
+                        print("Chance: ",current_chance)
+                    else:
+                        current_chance = None
+                elif line[0] == "[":
+                    next_decision = line[1:].replace("]","").strip()
+                    print(GREEN,line,RESET)
+                    print("Next decision: ", next_decision)
+                elif line.strip() != "":
+                    print(BLUE,line,RESET)
                 else:
-                    current_chance = None
-            else:
+                    pass
+            except IndexError:
                 pass
 
         # counts line breaks
