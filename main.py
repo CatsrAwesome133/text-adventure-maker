@@ -148,7 +148,7 @@ written_line = ''
 
 print(current)
 
-with open(f"{name}.py", "a") as f:
+with open(f"{name}.py", "a", encoding='utf-8') as f:
     f.write("from classes import Decision\n")
     for item in current:
         all_decisions += f'"{item}": {item},\n'
