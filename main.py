@@ -1,5 +1,8 @@
+import sys
 RED = "\033[31m"
 YELLOW = "\033[33m"
+GREEN = "\033[32m"
+BLUE = "\033[34m"
 RESET = "\033[0m"
 
 
@@ -13,7 +16,19 @@ else:
 name = name[len(name)-1].split(".")[0]
 print(name)
 
-#n = open(f"~\{name}.py")
+
+"""# creates a new file; currently not used since that function is not yet neccessary
+try:
+    n = input("Please enter the name for the output file: ")
+    if n.strip != "" and n.isalnum():
+        n = open(f"{n}.py", "x")
+    else: 
+        print(f"You haven't entered a valid name. The file will save as {BLUE}{name}.py{RESET}")
+        n = open(f"{name}.py", "x")
+except FileExistsError:
+    sys.exit("That file already exists. Please delete or move it and restart the program.")
+"""
+
 
 with open(path, "r") as original:
     current_d = 0
