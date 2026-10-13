@@ -37,7 +37,7 @@ new_decision_indicator = "#"
 
 with open(path, "r") as original:
     current_d = 0
-    last_d = -1
+    last_d = 0
     break_count = 0
     counting = True
     current = {}
@@ -111,7 +111,6 @@ with open(path, "r") as original:
                     if current_chance != None:
                         current[current_key][current_option].append(current_chance)
 
-                    print(current)
                 
                 # detects narration text
                 elif line.strip() != "" and line[0] != f"{new_decision_indicator}":
@@ -141,3 +140,6 @@ with open(path, "r") as original:
         if break_count >= 2:
             counting = False
             current_d = last_d
+
+
+print(current)
