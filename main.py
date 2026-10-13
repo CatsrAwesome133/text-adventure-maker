@@ -31,7 +31,9 @@ with open(path, "r") as original:
                 last_d += 1
                 counting = True
                 print(RED,line,RESET)
-                current_key = line[1:]
+                current_key = line[1:].split(" ")[0]
+                all_decisions[current_key] = ""
+                print("Key: ", current_key)
         except IndexError:
             pass
         if current_d == last_d:
@@ -47,8 +49,9 @@ with open(path, "r") as original:
                     print("Chance: ",current_chance)
             else:
                 pass
-        if line.strip() == "" and counting:
-            current_d += 1
-            counting = False
+
         elif line.strip() == "":
             break_count += 1
+        if break_count >= 2:
+            counting = False
+            current_d = last_d
