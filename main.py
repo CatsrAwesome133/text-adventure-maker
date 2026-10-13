@@ -18,17 +18,18 @@ name = name[len(name)-1].split(".")[0]
 print(name)
 
 
-"""# creates a new file; currently not used since that function is not yet neccessary
+# creates a new file; currently not used since that function is not yet neccessary
 try:
     n = input("Please enter the name for the output file: ")
     if n.strip != "" and n.isalnum():
-        n = open(f"{n}.py", "x")
+        name = n
+        n = open(f"{name}.py", "x")
     else: 
         print(f"You haven't entered a valid name. The file will save as {BLUE}{name}.py{RESET}")
         n = open(f"{name}.py", "x")
 except FileExistsError:
     sys.exit("That file already exists. Please delete or move it and restart the program.")
-"""
+
 
  # take these as an input later
 newline = "··> "
@@ -41,7 +42,7 @@ with open(path, "r") as original:
     break_count = 0
     counting = True
     current = {}
-    all_decisions = {}
+    all_decisions = ""
 
 
     # scans through the document by line
@@ -59,7 +60,8 @@ with open(path, "r") as original:
                 print(RED,line,RESET)
                 current_key = line[1:].split(" ")[0]
                 # adds the ID of the current decision to the master list
-                all_decisions[current_key] = '' # single quotes to be replaced later
+                
+                # single quotes to be replaced later
                 current[current_key] = {}
                 print("Key: ", current_key)
         except IndexError:
@@ -141,5 +143,15 @@ with open(path, "r") as original:
             counting = False
             current_d = last_d
 
+all_decisions = "all_decisions = {"
+written_line = ''
 
 print(current)
+
+with open(f"{name}.py", "a") as f:
+    f.write("from classes import Decision\n")
+    for item in current:
+        all_decisions += f'"{item}": {item},\n'
+        written_line = item + " = Decision(" + str(current[item]) + ")\n"
+        f.write(written_line)
+    f.write(all_decisions + "}")

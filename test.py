@@ -8,4 +8,8 @@ b = {"b": ["1", '']}
 
 print(str(b).replace("''","c"))
 
-c = {"a": f''}
+c = {"a": f'', 
+"b": '53wredc',
+"c": a("thiry seven")}
+
+print(c)
