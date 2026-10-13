@@ -3,7 +3,7 @@ YELLOW = "\033[33m"
 RESET = "\033[0m"
 
 
-path = input()
+path = "testing_doc.txt" #replace with input later
 
 if "/" in path:
     name = path.split("/")
@@ -18,17 +18,37 @@ print(name)
 with open(path, "r") as original:
     current_d = 0
     last_d = -1
+    break_count = 0
     counting = True
+    current = {}
+    all_decisions = {}
+
+
     for line in original:
-        if str(line)[0] == "#":
-            last_d += 1
-            counting = True
-            print(RED,str(line),RESET)
+        line = str(line).replace('\n', '')
+        try:
+            if line[0] == "#":
+                last_d += 1
+                counting = True
+                print(RED,line,RESET)
+                current_key = line[1:]
+        except IndexError:
+            pass
         if current_d == last_d:
-            if " > " in str(line):
-                print(YELLOW,str(line),RESET)
+            if " > " in line:
+                print(YELLOW,line,RESET)
+                options = line.split(" > ")
+
+                current_option = options[0]
+                current_name = options[1].split("(")[0].strip()
+                print("Option: ", current_option,"Name: ", current_name)
+                if "(" in options[1]:
+                    current_chance = options[1].split("(")[1].replace(")","").strip()
+                    print("Chance: ",current_chance)
             else:
-                print(line)
-        if str(line).strip() == "" and counting:
+                pass
+        if line.strip() == "" and counting:
             current_d += 1
             counting = False
+        elif line.strip() == "":
+            break_count += 1
