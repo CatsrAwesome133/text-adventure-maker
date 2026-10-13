@@ -7,3 +7,5 @@ a = a("aihbskv")
 b = {"b": ["1", '']}
 
 print(str(b).replace("''","c"))
+
+c = {"a": f''}

@@ -5,6 +5,7 @@ GREEN = "\033[32m"
 BLUE = "\033[34m"
 RESET = "\033[0m"
 
+# STRICTLY USE DOUBLE QUOTES IN THIS CODE
 
 path = "testing_doc.txt" #replace with input later
 
@@ -29,6 +30,10 @@ except FileExistsError:
     sys.exit("That file already exists. Please delete or move it and restart the program.")
 """
 
+ # take these as an input later
+newline = "··> "
+new_decision_indicator = "#"
+
 
 with open(path, "r") as original:
     current_d = 0
@@ -47,7 +52,7 @@ with open(path, "r") as original:
         # try-except stops errors from occuring when the line is empty
         try:
             # detects decisions
-            if line[0] == "#":
+            if line[0] == f"{new_decision_indicator}":
                 last_d += 1
                 break_count = 0
                 counting = True
@@ -61,9 +66,11 @@ with open(path, "r") as original:
 
         # only counts when there is a new decision
         if current_d < last_d:
-            # detects new option
             try: 
+                # detects new option
                 if " > " in line:
+                    text_count = 0
+                    text_string = ""
                     break_count = 0
                     print(YELLOW,line,RESET)
                     options = line.split(" > ")
@@ -84,12 +91,28 @@ with open(path, "r") as original:
                         print("Chance: ",current_chance)
                     else:
                         current_chance = None
+
+                # detects next decision indicator
                 elif line[0] == "[":
+                    # gets the ID
                     next_decision = line[1:].replace("]","").strip()
+
+                    # prints the line & the fetched ID
                     print(GREEN,line,RESET)
                     print("Next decision: ", next_decision)
-                elif line.strip() != "":
+                
+                # detects narration text
+                elif line.strip() != "" and line[0] != f"{new_decision_indicator}":
                     print(BLUE,line,RESET)
+                    # tests wether it's the first line
+                    try:
+                        text_count += 1
+                        if text_count != 1:
+                            text_string += f"\n{newline}"
+                        text_string += line
+                        print(text_string)
+                    except NameError:
+                        pass
                 else:
                     pass
             except IndexError:
