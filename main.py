@@ -1,4 +1,3 @@
-import sys
 import tkinter as tk
 from tkinter import filedialog
 
@@ -10,151 +9,306 @@ RESET = "\033[0m"
 
 # STRICTLY USE DOUBLE QUOTES IN THIS CODE
 
-path = "testing_doc.txt" #replace with input later
+path = None
+name = None
 
-if "/" in path:
-    name = path.split("/")
-else:
-    name = path.split("\\")
+def process(newline="··> ", new_decision_indicator="#"):
+    global path
+    global name
 
-name = name[len(name)-1].split(".")[0]
-print(name)
+    if path is None or name is None:
+        label3.config(text="You're missing some inputs. Please fill them out and try again.")
+        return
 
+    file_path = path
+    file_name = name
 
-# creates a new file; currently not used since that function is not yet neccessary
-try:
-    n = input("Please enter the name for the output file: ")
-    if n.strip != "" and n.isalnum():
-        name = n
-        n = open(f"{name}.py", "x")
-    else: 
-        print(f"You haven't entered a valid name. The file will save as {BLUE}{name}.py{RESET}")
-        n = open(f"{name}.py", "x")
-except FileExistsError:
-    sys.exit("That file already exists. Please delete or move it and restart the program.")
-
-
- # take these as an input later
-newline = "··> "
-new_decision_indicator = "#"
+    with open(file_path, "r") as original:
+        current_d = 0
+        last_d = 0
+        break_count = 0
+        counting = True
+        current = {}
+        all_decisions = ""
 
 
-with open(path, "r") as original:
-    current_d = 0
-    last_d = 0
-    break_count = 0
-    counting = True
-    current = {}
-    all_decisions = ""
+        # scans through the document by line
+        for line in original:
+            line = str(line).replace('\n', '')
+            # removes newlines so I don't suffer
 
-
-    # scans through the document by line
-    for line in original:
-        line = str(line).replace('\n', '')
-        # removes newlines so I don't suffer
-
-        # try-except stops errors from occuring when the line is empty
-        try:
-            # detects decisions
-            if line[0] == f"{new_decision_indicator}":
-                last_d += 1
-                break_count = 0
-                counting = True
-                print(RED,line,RESET)
-                current_key = line[1:].split(" ")[0]
-                # adds the ID of the current decision to the master list
-                
-                # single quotes to be replaced later
-                current[current_key] = {}
-                print("Key: ", current_key)
-        except IndexError:
-            pass
-
-        # only counts when there is a new decision
-        if current_d < last_d:
-            try: 
-                # detects new option
-                if ">" in line:
-                    text_count = 0
-                    text_string = ""
+            # try-except stops errors from occurring when the line is empty
+            try:
+                # detects decisions
+                if line[0] == f"{new_decision_indicator}":
+                    last_d += 1
                     break_count = 0
-                    print(YELLOW,line,RESET)
-                    options = line.split(">")
+                    counting = True
+                    print(RED,line,RESET)
+                    current_key = line[1:].split(" ")[0]
+                    # adds the ID of the current decision to the master list
 
-                    # takes the option id
-                    current_option = options[0].strip()
-
-                    # takes the option name
-                    current_name = options[1].split("(")[0].strip()
-
-                    # prints them
-                    print("Option: ", current_option,"Name: ", current_name)
-
-                    # assigning stuff
-                    current[current_key][current_option] = ["","",""]
-                    current[current_key][current_option][0] = current_name
-
-                    # detects wether there's a chance value
-                    if "(" in options[1]:
-                        # registers and prints it
-                        current_chance = options[1].split("(")[1].replace(")","").strip()
-                        print("Chance: ",current_chance)
-                    else:
-                        current_chance = None
-
-                # detects next decision indicator
-                elif line[0] == "[":
-                    # gets the ID
-                    next_decision = line[1:].replace("]","").strip()
-
-                    # prints the line & the fetched ID
-                    print(GREEN,line,RESET)
-                    print("Next decision: ", next_decision)
-
-                    # assigning stuff
-                    current[current_key][current_option][2] = next_decision
-                    if current_chance != None:
-                        current[current_key][current_option].append(current_chance)
-
-                
-                # detects narration text
-                elif line.strip() != "" and line[0] != f"{new_decision_indicator}":
-                    print(BLUE,line,RESET)
-                    # tests wether it's the first line
-                    try:
-                        text_count += 1
-                        if text_count != 1:
-                            text_string += f"\n{newline}"
-                        text_string += line
-                        print(text_string)
-                    except NameError:
-                        pass
-
-                    # assigning stuff
-                    current[current_key][current_option][1] = text_string
-                else:
-                    pass
+                    # single quotes to be replaced later
+                    current[current_key] = {}
+                    print("Key: ", current_key)
             except IndexError:
                 pass
 
-        # counts line breaks
-        elif line.strip() == "":
-            break_count += 1
+            # only counts when there is a new decision
+            if current_d < last_d:
+                try:
+                    # detects new option
+                    if ">" in line:
+                        text_count = 0
+                        text_string = ""
+                        break_count = 0
+                        print(YELLOW,line,RESET)
+                        options = line.split(">")
 
-        # new decision occurs when there are 2-3 line breaks, so it's set to >= 2
-        if break_count >= 2:
-            counting = False
-            current_d = last_d
+                        # takes the option id
+                        current_option = options[0].strip()
 
-all_decisions = "all_decisions = {"
-written_line = ''
+                        # takes the option name
+                        current_name = options[1].split("(")[0].strip()
 
-print(current)
+                        # prints them
+                        print("Option: ", current_option,"Name: ", current_name)
 
-with open(f"{name}.py", "a", encoding='utf-8') as f:
-    f.write("from classes import Decision\n")
-    for item in current:
-        all_decisions += f'"{item}": {item},\n'
-        written_line = item + " = Decision(" + str(current[item]) + ")\n"
-        f.write(written_line)
-    f.write(all_decisions + "}")
+                        # assigning stuff
+                        current[current_key][current_option] = ["","",""]
+                        current[current_key][current_option][0] = current_name
+
+                        # detects whether there's a chance value
+                        if "(" in options[1]:
+                            # registers and prints it
+                            current_chance = options[1].split("(")[1].replace(")","").strip()
+                            print("Chance: ",current_chance)
+                        else:
+                            current_chance = None
+
+                    # detects next decision indicator
+                    elif line[0] == "[":
+                        # gets the ID
+                        next_decision = line[1:].replace("]","").strip()
+
+                        # prints the line & the fetched ID
+                        print(GREEN,line,RESET)
+                        print("Next decision: ", next_decision)
+
+                        # assigning stuff
+                        current[current_key][current_option][2] = next_decision
+                        if current_chance is not None:
+                            current[current_key][current_option].append(current_chance)
+
+
+                    # detects narration text
+                    elif line.strip() != "" and line[0] != f"{new_decision_indicator}":
+                        print(BLUE,line,RESET)
+                        # tests whether it's the first line
+                        try:
+                            text_count += 1
+                            if text_count != 1:
+                                text_string += f"\n{newline}"
+                            text_string += line
+                            print(text_string)
+                        except NameError:
+                            pass
+
+                        # assigning stuff
+                        current[current_key][current_option][1] = text_string
+                    else:
+                        pass
+                except IndexError:
+                    pass
+
+            # counts line breaks
+            elif line.strip() == "":
+                break_count += 1
+
+            # new decision occurs when there are 2-3 line breaks, so it's set to >= 2
+            if break_count >= 2:
+                counting = False
+                current_d = last_d
+
+    all_decisions = "all_decisions = {"
+    written_line = ''
+
+    print(current)
+
+    with open(f"{file_name}.py", "a") as f:
+        f.write("from classes import Decision\n")
+        for item in current:
+            all_decisions += f'"{item}": {item},\n'
+            written_line = item + " = Decision(" + str(current[item]) + ")\n"
+            f.write(written_line)
+        f.write(all_decisions + "}")
+
+
+
+# the UI
+root = tk.Tk(baseName='Text Adventure Maker')
+root.geometry("700x500")
+
+frame = tk.Frame(root)
+frame.pack()
+
+tk.Label(frame, text="File path").grid(row=0, column=0, sticky=tk.W)
+tk.Label(frame, text="Output File Name").grid(row=1, column=0, sticky=tk.W)
+label1 = tk.Label(frame, text="")
+label1.grid(row=0,column=2, sticky=tk.W)
+label2 = tk.Label(frame, text="")
+label2.grid(row=1,column=2, sticky=tk.W)
+label3 = tk.Label(frame, text="")
+label3.grid(row=2,column=0, sticky=tk.W)
+
+def open_file():
+    # Opens the file dialog and stores the selected file path
+    file_path = filedialog.askopenfilename(
+        title="Select a File",
+        initialdir="/",
+        filetypes=[("Text Files", "*.txt"), ("All Files", "*.*")]
+    )
+    label1.config(text="Selected: " + file_path)
+
+    if file_path:  # Check if the user selected a file or cancelled
+        global path
+        global name
+        path = str(file_path)
+
+        if "/" in path:
+            name = path.split("/")
+        else:
+            name = path.split("\\")
+
+        name = name[len(name) - 1].split(".")[0]
+        print(name)
+    else:
+        path = None
+
+
+def get_name():
+    global name
+    n = entry2.get()
+    try:
+        if n.strip != "" and n.isalnum():
+            name = n
+            open(f"{name}.py", "x")
+        else:
+            print(f"You haven't entered a valid name. The file will save as {BLUE}{name}.py{RESET}")
+            open(f"{name}.py", "x")
+    except FileExistsError:
+        label1.config(text="That file already exists. Please delete or move it and try again.")
+        name = None
+
+
+file = tk.Button(frame, text="Open File", command=open_file)
+entry2 = tk.Entry(frame)
+
+file.grid(row=0, column=1)
+entry2.grid(row=1, column=1)
+
+button1 = tk.Button(frame, text="OK", width=15, command=get_name)
+button1.grid(row=2, column=1)
+
+button2 = tk.Button(frame, text="Start Compiling", width=15, command=process)
+button2.grid(row=3, column=1)
+
+label3 = tk.Label(frame, text="")
+label3.grid(row=3,column=0, sticky=tk.W)
+
+
+
+# custom indicators
+def hide_me(event):
+    event.widget.grid_forget()
+
+def custom():
+    if custom_ind.get():
+        label4.grid(row=5, column=0, sticky=tk.NE)
+
+        check1.grid(row=6, column=0, sticky=tk.NE)
+        check2.grid(row=7, column=0, sticky=tk.NE)
+        check3.grid(row=8, column=0, sticky=tk.NE)
+
+        newline.grid(row=10, column=0, sticky=tk.W)
+
+        if var1.get():
+            new_d.grid(row=6, column=1, sticky=tk.W)
+        if var2.get():
+            jump.grid(row=7, column=1, sticky=tk.W)
+        if var3.get():
+            option_sep.grid(row=8, column=1, sticky=tk.W)
+
+        if custom_newline.get():
+            newline_enter.grid(row=11, column=1, sticky=tk.W)
+            newline_text.grid(row=11, column=0, sticky=tk.NE)
+    else:
+        label4.grid_forget()
+
+        check1.grid_forget()
+        check2.grid_forget()
+        check3.grid_forget()
+
+        new_d.grid_forget()
+        jump.grid_forget()
+        option_sep.grid_forget()
+
+
+def check_new_d():
+    if var1.get():
+        new_d.grid(row=6, column=1, sticky=tk.W)
+    else:
+        new_d.grid_forget()
+
+def check_jump():
+    if var2.get():
+        jump.grid(row=7, column=1, sticky=tk.W)
+    else:
+        jump.grid_forget()
+
+def check_option_sep():
+    if var3.get():
+        option_sep.grid(row=8, column=1, sticky=tk.W)
+    else:
+        option_sep.grid_forget()
+
+def custom_line():
+    if custom_newline.get():
+        if custom_ind.get():
+            newline_enter.grid(row=11, column=1, sticky=tk.W)
+            newline_text.grid(row=11, column=0, sticky=tk.NE)
+        else:
+            newline_enter.grid(row=17, column=1, sticky=tk.W)
+            newline_text.grid(row=17, column=0, sticky=tk.NE)
+    else:
+        newline_enter.grid_forget()
+        newline_text.grid_forget()
+
+custom_ind = tk.IntVar()
+check0 = tk.Checkbutton(frame, text="I used custom indicators", variable=custom_ind, command=custom)
+check0.grid(row=3, column=0, sticky=tk.W)
+
+label4 = tk.Label(frame, text="Indicators Customized: ")
+
+var1 = tk.IntVar()
+var2 = tk.IntVar()
+var3 = tk.IntVar()
+
+check1 = tk.Checkbutton(frame, text="New Decision: ", variable=var1, command=check_new_d)
+check2 = tk.Checkbutton(frame, text="Next Decision: ", variable=var2, command=check_jump)
+check3 = tk.Checkbutton(frame, text="Option seperator: ", variable=var3, command=check_option_sep)
+
+new_d = tk.Entry(frame)
+jump = tk.Entry(frame)
+option_sep = tk.Entry(frame)
+
+custom_newline = tk.IntVar()
+newline = tk.Checkbutton(frame, text="I want a custom symbol for new lines", variable=custom_newline, command=custom_line)
+newline.grid(row=4, column=0, sticky=tk.W)
+
+newline_enter = tk.Entry(frame)
+newline_text = tk.Label(frame, text="Custom Symbol: ")
+
+
+
+root.mainloop()
