@@ -1,4 +1,3 @@
-import sys
 import tkinter as tk
 from tkinter import filedialog
 
@@ -10,20 +9,20 @@ RESET = "\033[0m"
 
 # STRICTLY USE DOUBLE QUOTES IN THIS CODE
 
-path = "testing_doc.txt" #replace with input later
+path = None
+name = None
 
+def process(newline="··> ", new_decision_indicator="#"):
+    global path
+    global name
 
-n = ''
+    if path is None or name is None:
+        label3.config(text="You're missing some inputs. Please fill them out and try again.")
+        return
 
-# creates a new file; currently not used since that function is not yet necessary
+    file_path = path
+    file_name = name
 
-
-
- # take these as an input later
-newline = "··> "
-new_decision_indicator = "#"
-
-def process(file_path, file_name, newline, new_decision_indicator):
     with open(file_path, "r") as original:
         current_d = 0
         last_d = 0
@@ -148,7 +147,7 @@ def process(file_path, file_name, newline, new_decision_indicator):
 
 # the UI
 root = tk.Tk(baseName='Text Adventure Maker')
-root.geometry("500x100")
+root.geometry("700x100")
 
 frame = tk.Frame(root)
 frame.pack()
@@ -157,6 +156,10 @@ tk.Label(frame, text="File path").grid(row=0, column=0)
 tk.Label(frame, text="Output File Name").grid(row=1, column=0)
 label1 = tk.Label(frame, text="")
 label1.grid(row=0,column=2)
+label2 = tk.Label(frame, text="")
+label2.grid(row=1,column=2)
+label3 = tk.Label(frame, text="")
+label3.grid(row=2,column=0)
 
 def open_file():
     # Opens the file dialog and stores the selected file path
@@ -179,20 +182,23 @@ def open_file():
 
         name = name[len(name) - 1].split(".")[0]
         print(name)
+    else:
+        path = None
 
 
 def get_name():
     global name
     n = entry2.get()
-    if n is not None:
+    try:
         if n.strip != "" and n.isalnum():
             name = n
             open(f"{name}.py", "x")
         else:
             print(f"You haven't entered a valid name. The file will save as {BLUE}{name}.py{RESET}")
             open(f"{name}.py", "x")
-    else:
-        sys.exit("That file already exists. Please delete or move it and restart the program.")
+    except FileExistsError:
+        label1.config(text="That file already exists. Please delete or move it and try again.")
+        name = None
 
 
 file = tk.Button(frame, text="Open File", command=open_file)
@@ -202,6 +208,9 @@ file.grid(row=0, column=1)
 entry2.grid(row=1, column=1)
 
 button = tk.Button(frame, text="OK", width=15, command=get_name)
+button.grid(row=2, column=1)
+
+button = tk.Button(frame, text="Start Compiling", width=15, command=process)
 button.grid(row=2, column=1)
 
 root.mainloop()
