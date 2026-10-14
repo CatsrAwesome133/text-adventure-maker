@@ -147,19 +147,19 @@ def process(newline="··> ", new_decision_indicator="#"):
 
 # the UI
 root = tk.Tk(baseName='Text Adventure Maker')
-root.geometry("700x100")
+root.geometry("700x500")
 
 frame = tk.Frame(root)
 frame.pack()
 
-tk.Label(frame, text="File path").grid(row=0, column=0)
-tk.Label(frame, text="Output File Name").grid(row=1, column=0)
+tk.Label(frame, text="File path").grid(row=0, column=0, sticky=tk.W)
+tk.Label(frame, text="Output File Name").grid(row=1, column=0, sticky=tk.W)
 label1 = tk.Label(frame, text="")
-label1.grid(row=0,column=2)
+label1.grid(row=0,column=2, sticky=tk.W)
 label2 = tk.Label(frame, text="")
-label2.grid(row=1,column=2)
+label2.grid(row=1,column=2, sticky=tk.W)
 label3 = tk.Label(frame, text="")
-label3.grid(row=2,column=0)
+label3.grid(row=2,column=0, sticky=tk.W)
 
 def open_file():
     # Opens the file dialog and stores the selected file path
@@ -207,10 +207,108 @@ entry2 = tk.Entry(frame)
 file.grid(row=0, column=1)
 entry2.grid(row=1, column=1)
 
-button = tk.Button(frame, text="OK", width=15, command=get_name)
-button.grid(row=2, column=1)
+button1 = tk.Button(frame, text="OK", width=15, command=get_name)
+button1.grid(row=2, column=1)
 
-button = tk.Button(frame, text="Start Compiling", width=15, command=process)
-button.grid(row=2, column=1)
+button2 = tk.Button(frame, text="Start Compiling", width=15, command=process)
+button2.grid(row=3, column=1)
+
+label3 = tk.Label(frame, text="")
+label3.grid(row=3,column=0, sticky=tk.W)
+
+
+
+# custom indicators
+def hide_me(event):
+    event.widget.grid_forget()
+
+def custom():
+    if custom_ind.get():
+        label4.grid(row=5, column=0, sticky=tk.NE)
+
+        check1.grid(row=6, column=0, sticky=tk.NE)
+        check2.grid(row=7, column=0, sticky=tk.NE)
+        check3.grid(row=8, column=0, sticky=tk.NE)
+
+        newline.grid(row=10, column=0, sticky=tk.W)
+
+        if var1.get():
+            new_d.grid(row=6, column=1, sticky=tk.W)
+        if var2.get():
+            jump.grid(row=7, column=1, sticky=tk.W)
+        if var3.get():
+            option_sep.grid(row=8, column=1, sticky=tk.W)
+
+        if custom_newline.get():
+            newline_enter.grid(row=11, column=1, sticky=tk.W)
+            newline_text.grid(row=11, column=0, sticky=tk.NE)
+    else:
+        label4.grid_forget()
+
+        check1.grid_forget()
+        check2.grid_forget()
+        check3.grid_forget()
+
+        new_d.grid_forget()
+        jump.grid_forget()
+        option_sep.grid_forget()
+
+
+def check_new_d():
+    if var1.get():
+        new_d.grid(row=6, column=1, sticky=tk.W)
+    else:
+        new_d.grid_forget()
+
+def check_jump():
+    if var2.get():
+        jump.grid(row=7, column=1, sticky=tk.W)
+    else:
+        jump.grid_forget()
+
+def check_option_sep():
+    if var3.get():
+        option_sep.grid(row=8, column=1, sticky=tk.W)
+    else:
+        option_sep.grid_forget()
+
+def custom_line():
+    if custom_newline.get():
+        if custom_ind.get():
+            newline_enter.grid(row=11, column=1, sticky=tk.W)
+            newline_text.grid(row=11, column=0, sticky=tk.NE)
+        else:
+            newline_enter.grid(row=17, column=1, sticky=tk.W)
+            newline_text.grid(row=17, column=0, sticky=tk.NE)
+    else:
+        newline_enter.grid_forget()
+        newline_text.grid_forget()
+
+custom_ind = tk.IntVar()
+check0 = tk.Checkbutton(frame, text="I used custom indicators", variable=custom_ind, command=custom)
+check0.grid(row=3, column=0, sticky=tk.W)
+
+label4 = tk.Label(frame, text="Indicators Customized: ")
+
+var1 = tk.IntVar()
+var2 = tk.IntVar()
+var3 = tk.IntVar()
+
+check1 = tk.Checkbutton(frame, text="New Decision: ", variable=var1, command=check_new_d)
+check2 = tk.Checkbutton(frame, text="Next Decision: ", variable=var2, command=check_jump)
+check3 = tk.Checkbutton(frame, text="Option seperator: ", variable=var3, command=check_option_sep)
+
+new_d = tk.Entry(frame)
+jump = tk.Entry(frame)
+option_sep = tk.Entry(frame)
+
+custom_newline = tk.IntVar()
+newline = tk.Checkbutton(frame, text="I want a custom symbol for new lines", variable=custom_newline, command=custom_line)
+newline.grid(row=4, column=0, sticky=tk.W)
+
+newline_enter = tk.Entry(frame)
+newline_text = tk.Label(frame, text="Custom Symbol: ")
+
+
 
 root.mainloop()
