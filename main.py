@@ -317,6 +317,7 @@ def get_custom():
 
 # the UI
 root = tk.Tk(baseName='Text Adventure Maker')
+root.title("Text Adventure Game Maker (Compiler)")
 root.geometry("700x500")
 
 main_options = tk.Frame(root)
