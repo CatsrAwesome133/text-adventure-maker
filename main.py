@@ -322,27 +322,30 @@ root.geometry("700x500")
 main_options = tk.Frame(root)
 main_options.pack()
 
-tk.Label(main_options, text="File path").grid(row=0, column=0, sticky=tk.W)
-tk.Label(main_options, text="Output File Name").grid(row=1, column=0, sticky=tk.W)
-label1 = tk.Label(main_options, text="")
-label1.grid(row=0,column=2, sticky=tk.W)
-label2 = tk.Label(main_options, text="")
-label2.grid(row=1,column=2, sticky=tk.W)
-label3 = tk.Label(main_options, text="")
-label3.grid(row=2,column=0, sticky=tk.W)
+file_selector = tk.Frame(main_options)
+output_selector = tk.Frame(main_options)
 
+tk.Label(file_selector, text="File path: ").grid(row=0, column=0, sticky=tk.W)
+tk.Label(output_selector, text="Output File Name: ").grid(row=0, column=0, sticky=tk.W)
 
-file = tk.Button(main_options, text="Open File", command=open_file)
-entry2 = tk.Entry(main_options)
+file = tk.Button(file_selector, text="Open File", command=open_file)
+entry2 = tk.Entry(output_selector)
 
 file.grid(row=0, column=1)
-entry2.grid(row=1, column=1)
+entry2.grid(row=0, column=1)
 
-button1 = tk.Button(main_options, text="OK", command=get_name)
-button1.grid(row=2, column=1)
+button1 = tk.Button(output_selector, text="OK", command=get_name)
+button1.grid(row=0, column=2)
 
-label3 = tk.Label(main_options, text="")
-label3.grid(row=3,column=0, sticky=tk.W)
+label3 = tk.Label(output_selector, text="")
+label3.grid(row=0,column=0, sticky=tk.W)
+
+file_selector.pack()
+label1 = tk.Label(main_options, text="")
+label1.pack()
+output_selector.pack()
+label2 = tk.Label(main_options, text="")
+label2.pack()
 
 
 custom_options = tk.Frame(root)
@@ -387,9 +390,12 @@ confirm2.grid(row=19, column=0)
 confirm3.grid(row=20, column=0)
 confirm4.grid(row=21, column=0)
 
+
+label3 = tk.Label(main_options, text="")
+label3.pack()
+
 end_label = tk.Label(root,text="")
 end_label.pack()
-
 
 button2 = tk.Button(root, text="Start Compiling", width=15, command=process)
 button2.pack()
