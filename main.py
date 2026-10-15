@@ -11,10 +11,36 @@ RESET = "\033[0m"
 
 path = None
 name = None
+new_line = ""
+new_decision = ""
+next_decision = ""
+option_seperator = ""
 
-def process(newline="··> ", new_decision_indicator="#"):
+def process(newline="··> ", new_decision_indicator="#", jump=None, opt_sep=">"):
     global path
     global name
+
+    global new_line
+    if new_line.strip() != "":
+        newline = new_line
+
+    global new_decision
+    if new_decision.strip() != "":
+        new_decision_indicator = new_decision
+
+    global next_decision
+    if next_decision.strip() != "":
+        jump = next_decision
+    else:
+        jump = None
+
+    global option_seperator
+    if option_seperator.strip() != "":
+        opt_sep = option_seperator
+
+    print(newline,"; ",new_decision_indicator,"; ",jump,"; ",option_sep)
+
+
 
     if path is None or name is None:
         label3.config(text="You're missing some inputs. Please fill them out and try again.")
@@ -58,12 +84,12 @@ def process(newline="··> ", new_decision_indicator="#"):
             if current_d < last_d:
                 try:
                     # detects new option
-                    if ">" in line:
+                    if opt_sep in line:
                         text_count = 0
                         text_string = ""
                         break_count = 0
                         print(YELLOW,line,RESET)
-                        options = line.split(">")
+                        options = line.split(opt_sep)
 
                         # takes the option id
                         current_option = options[0].strip()
@@ -87,6 +113,19 @@ def process(newline="··> ", new_decision_indicator="#"):
                             current_chance = None
 
                     # detects next decision indicator
+                    elif jump is not None:
+                        if line[0] == jump:
+                            # gets the ID
+                            next_decision = line.replace(jump, "").strip()
+
+                            # prints the line & the fetched ID
+                            print(GREEN, line, RESET)
+                            print("Next decision: ", next_decision)
+
+                            # assigning stuff
+                            current[current_key][current_option][2] = next_decision
+                            if current_chance is not None:
+                                current[current_key][current_option].append(current_chance)
                     elif line[0] == "[":
                         # gets the ID
                         next_decision = line[1:].replace("]","").strip()
@@ -143,6 +182,9 @@ def process(newline="··> ", new_decision_indicator="#"):
             f.write(written_line)
         f.write(all_decisions + "}")
 
+    print("Completed")
+    end_label.config(text="Compiling Complete")
+
 
 
 # the UI
@@ -193,11 +235,12 @@ def get_name():
         if n.strip != "" and n.isalnum():
             name = n
             open(f"{name}.py", "x")
+            label2.config(text=f"Ok! The file will save as {name}.py")
         else:
-            print(f"You haven't entered a valid name. The file will save as {BLUE}{name}.py{RESET}")
+            label2.config(text=f"You haven't entered a valid name. The file will save as {name}.py")
             open(f"{name}.py", "x")
     except FileExistsError:
-        label1.config(text="That file already exists. Please delete or move it and try again.")
+        label2.config(text="That file already exists. Please delete or move it and try again.")
         name = None
 
 
@@ -211,7 +254,7 @@ button1 = tk.Button(frame, text="OK", width=15, command=get_name)
 button1.grid(row=2, column=1)
 
 button2 = tk.Button(frame, text="Start Compiling", width=15, command=process)
-button2.grid(row=3, column=1)
+button2.grid(row=20, column=1)
 
 label3 = tk.Label(frame, text="")
 label3.grid(row=3,column=0, sticky=tk.W)
@@ -219,9 +262,6 @@ label3.grid(row=3,column=0, sticky=tk.W)
 
 
 # custom indicators
-def hide_me(event):
-    event.widget.grid_forget()
-
 def custom():
     if custom_ind.get():
         label4.grid(row=5, column=0, sticky=tk.NE)
@@ -309,6 +349,37 @@ newline.grid(row=4, column=0, sticky=tk.W)
 newline_enter = tk.Entry(frame)
 newline_text = tk.Label(frame, text="Custom Symbol: ")
 
+def get_custom():
+    global new_line
+    global new_decision
+    global next_decision
+    global option_seperator
+
+    new_line = str(newline_enter.get())
+    new_decision = str(new_d.get())
+    next_decision = str(jump.get())
+    option_seperator = str(option_sep.get())
+
+    confirm1.config(text=f"New Decision Indicator: {new_decision}")
+    confirm2.config(text=f"Next Decision Indicator: {next_decision}")
+    confirm3.config(text=f"Option Seperator: {option_seperator}")
+    confirm4.config(text=f"New Line Symbol: {new_line}")
+
+button2 = tk.Button(frame, text="Confirm Custom Symbols", width=15, command=get_custom)
+button2.grid(row=18, column=1)
+
+confirm1 = tk.Label(frame, text="")
+confirm2 = tk.Label(frame, text="")
+confirm3 = tk.Label(frame, text="")
+confirm4 = tk.Label(frame, text="")
+
+confirm1.grid(row=18, column=0)
+confirm2.grid(row=19, column=0)
+confirm3.grid(row=20, column=0)
+confirm4.grid(row=21, column=0)
+
+end_label = tk.Label(root,text="")
+end_label.pack()
 
 
 root.mainloop()
