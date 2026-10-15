@@ -1,5 +1,4 @@
 - Improve UI
---> Center popup text
 --> Add colors
 - Add prefix-suffix customization
 - Add auto mode/build

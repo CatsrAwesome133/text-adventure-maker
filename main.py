@@ -325,8 +325,10 @@ main_options.pack()
 file_selector = tk.Frame(main_options)
 output_selector = tk.Frame(main_options)
 
-tk.Label(file_selector, text="File path: ").grid(row=0, column=0, sticky=tk.W)
-tk.Label(output_selector, text="Output File Name: ").grid(row=0, column=0, sticky=tk.W)
+file_label = tk.Label(file_selector, text="File path: ")
+file_label.grid(row=0, column=0, sticky=tk.W)
+output_label = tk.Label(output_selector, text="Output File Name: ")
+output_label.grid(row=0, column=0, sticky=tk.W)
 
 file = tk.Button(file_selector, text="Open File", command=open_file)
 entry2 = tk.Entry(output_selector)
@@ -338,7 +340,6 @@ button1 = tk.Button(output_selector, text="OK", command=get_name)
 button1.grid(row=0, column=2)
 
 label3 = tk.Label(output_selector, text="")
-label3.grid(row=0,column=0, sticky=tk.W)
 
 file_selector.pack()
 label1 = tk.Label(main_options, text="")
@@ -348,10 +349,11 @@ label2 = tk.Label(main_options, text="")
 label2.pack()
 
 
+
+# custom indicators
 custom_options = tk.Frame(root)
 custom_options.pack()
 
-# custom indicators
 custom_ind = tk.IntVar()
 check0 = tk.Checkbutton(custom_options, text="I used custom indicators", variable=custom_ind, command=custom)
 check0.grid(row=3, column=0, sticky=tk.W)
@@ -397,7 +399,50 @@ label3.pack()
 end_label = tk.Label(root,text="")
 end_label.pack()
 
-button2 = tk.Button(root, text="Start Compiling", width=15, command=process)
-button2.pack()
+button3 = tk.Button(root, text="Start Compiling", width=15, command=process)
+button3.pack()
+
+# colors!
+all_widgets = [
+    root,
+    custom_options,
+    main_options,
+    file_label,
+    output_label,
+    file_selector,
+    output_selector,
+    newline_text,
+    newline,
+    button1,
+    button2,
+    button3,
+    label1,
+    label2,
+    label3,
+    label4,
+    check0,
+    check1,
+    check2,
+    check3,
+    confirm1,
+    confirm2,
+    confirm3,
+    confirm4,
+    file,
+    end_label,
+]
+
+colors = {"fg": "ivory1",
+          "bg": "ivory4",
+          "small": "ivory3"}
+
+root.configure(bg=colors["fg"])
+custom_options.configure(bg=colors["fg"])
+main_options.configure(bg=colors["fg"])
+
+for i in all_widgets:
+    i.configure(bg=colors["fg"])
+
+button3.configure(bg=colors["bg"], fg=colors["fg"])
 
 root.mainloop()
