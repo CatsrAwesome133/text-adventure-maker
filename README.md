@@ -28,7 +28,7 @@ Drag `classes.py` and your output file into a folder for your project. Now, you'
 
 Make a file called `main.py` in your project folder (or call it anything else, just remember to run this file when playing your game). 
 
-Now go into it, and create a game loop (refer to [the README](https://www.python.org/) of `folktale-palm` as to how). 
+Now go into it, and create a game loop (refer to [the README]([https://www.python.org/](https://github.com/CatsrAwesome133/folktale-palm/tree/main#soo-i-wanna-use-this-sturcture-for-my-game)) of `folktale-palm` as to how). 
 
 Now you're set! You can add whatever other features you want, of course.
 
