@@ -38,6 +38,13 @@ def process(newline="··> ", new_decision_indicator="#", jump=None, opt_sep=">"
     if option_seperator.strip() != "":
         opt_sep = option_seperator
 
+
+    try:
+        open(f"{name}.py", "x")
+    except FileExistsError:
+        label3.config(text="That file already exists. Please change the name and try again.")
+        return
+
     print(newline,"; ",new_decision_indicator,"; ",jump,"; ",option_sep)
 
 
@@ -218,11 +225,9 @@ def get_name():
     try:
         if n.strip != "" and n.isalnum():
             name = n
-            open(f"{name}.py", "x")
             label2.config(text=f"Ok! The file will save as {name}.py")
         else:
             label2.config(text=f"You haven't entered a valid name. The file will save as {name}.py")
-            open(f"{name}.py", "x")
     except FileExistsError:
         label2.config(text="That file already exists. Please delete or move it and try again.")
         name = None
