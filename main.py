@@ -187,22 +187,6 @@ def process(newline="··> ", new_decision_indicator="#", jump=None, opt_sep=">"
 
 
 
-# the UI
-root = tk.Tk(baseName='Text Adventure Maker')
-root.geometry("700x500")
-
-frame = tk.Frame(root)
-frame.pack()
-
-tk.Label(frame, text="File path").grid(row=0, column=0, sticky=tk.W)
-tk.Label(frame, text="Output File Name").grid(row=1, column=0, sticky=tk.W)
-label1 = tk.Label(frame, text="")
-label1.grid(row=0,column=2, sticky=tk.W)
-label2 = tk.Label(frame, text="")
-label2.grid(row=1,column=2, sticky=tk.W)
-label3 = tk.Label(frame, text="")
-label3.grid(row=2,column=0, sticky=tk.W)
-
 def open_file():
     # Opens the file dialog and stores the selected file path
     file_path = filedialog.askopenfilename(
@@ -244,24 +228,6 @@ def get_name():
         name = None
 
 
-file = tk.Button(frame, text="Open File", command=open_file)
-entry2 = tk.Entry(frame)
-
-file.grid(row=0, column=1)
-entry2.grid(row=1, column=1)
-
-button1 = tk.Button(frame, text="OK", width=15, command=get_name)
-button1.grid(row=2, column=1)
-
-button2 = tk.Button(frame, text="Start Compiling", width=15, command=process)
-button2.grid(row=20, column=1)
-
-label3 = tk.Label(frame, text="")
-label3.grid(row=3,column=0, sticky=tk.W)
-
-
-
-# custom indicators
 def custom():
     if custom_ind.get():
         label4.grid(row=5, column=0, sticky=tk.NE)
@@ -324,6 +290,61 @@ def custom_line():
         newline_enter.grid_forget()
         newline_text.grid_forget()
 
+
+def get_custom():
+    global new_line
+    global new_decision
+    global next_decision
+    global option_seperator
+
+    new_line = str(newline_enter.get())
+    new_decision = str(new_d.get())
+    next_decision = str(jump.get())
+    option_seperator = str(option_sep.get())
+
+    confirm1.config(text=f"New Decision Indicator: {new_decision}")
+    confirm2.config(text=f"Next Decision Indicator: {next_decision}")
+    confirm3.config(text=f"Option Seperator: {option_seperator}")
+    confirm4.config(text=f"New Line Symbol: {new_line}")
+
+
+
+
+# the UI
+root = tk.Tk(baseName='Text Adventure Maker')
+root.geometry("700x500")
+
+frame = tk.Frame(root)
+frame.pack()
+
+tk.Label(frame, text="File path").grid(row=0, column=0, sticky=tk.W)
+tk.Label(frame, text="Output File Name").grid(row=1, column=0, sticky=tk.W)
+label1 = tk.Label(frame, text="")
+label1.grid(row=0,column=2, sticky=tk.W)
+label2 = tk.Label(frame, text="")
+label2.grid(row=1,column=2, sticky=tk.W)
+label3 = tk.Label(frame, text="")
+label3.grid(row=2,column=0, sticky=tk.W)
+
+
+file = tk.Button(frame, text="Open File", command=open_file)
+entry2 = tk.Entry(frame)
+
+file.grid(row=0, column=1)
+entry2.grid(row=1, column=1)
+
+button1 = tk.Button(frame, text="OK", width=15, command=get_name)
+button1.grid(row=2, column=1)
+
+button2 = tk.Button(frame, text="Start Compiling", width=15, command=process)
+button2.grid(row=20, column=1)
+
+label3 = tk.Label(frame, text="")
+label3.grid(row=3,column=0, sticky=tk.W)
+
+
+
+# custom indicators
 custom_ind = tk.IntVar()
 check0 = tk.Checkbutton(frame, text="I used custom indicators", variable=custom_ind, command=custom)
 check0.grid(row=3, column=0, sticky=tk.W)
@@ -348,22 +369,6 @@ newline.grid(row=4, column=0, sticky=tk.W)
 
 newline_enter = tk.Entry(frame)
 newline_text = tk.Label(frame, text="Custom Symbol: ")
-
-def get_custom():
-    global new_line
-    global new_decision
-    global next_decision
-    global option_seperator
-
-    new_line = str(newline_enter.get())
-    new_decision = str(new_d.get())
-    next_decision = str(jump.get())
-    option_seperator = str(option_sep.get())
-
-    confirm1.config(text=f"New Decision Indicator: {new_decision}")
-    confirm2.config(text=f"Next Decision Indicator: {next_decision}")
-    confirm3.config(text=f"Option Seperator: {option_seperator}")
-    confirm4.config(text=f"New Line Symbol: {new_line}")
 
 button2 = tk.Button(frame, text="Confirm Custom Symbols", width=15, command=get_custom)
 button2.grid(row=18, column=1)
