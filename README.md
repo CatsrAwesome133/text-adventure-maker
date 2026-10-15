@@ -1,4 +1,4 @@
-# text-adventure-maker
+# Text Adventure Maker
 Program that compiles a formatted text file into a python file with dictionaries to be used with the code in the `folktale-palm` repo. Intended to make writing easier.
 
 ## How to Use
@@ -45,4 +45,4 @@ Once you've checked the box, you'll see a list of available custom indicators an
 
 ## How Does This Work?
 Mainly with Python file handling. You can write to `.py` files like any other text file, and this compiler takes great advantage of that. The indicators are not *that* strict but it's still basically Walmart Ren'Py. 
-The UI is made with Tkinter, so it's hopefully more user-friendly, and because Tkinter is a built-in library.
+The UI is made with Tkinter because Tkinter is a built-in library, and there is a (G)UI because I don't want to deal with consle stuff and I'm sure others don't usually do either.

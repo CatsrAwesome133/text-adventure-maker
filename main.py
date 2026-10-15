@@ -319,69 +319,68 @@ def get_custom():
 root = tk.Tk(baseName='Text Adventure Maker')
 root.geometry("700x500")
 
-frame = tk.Frame(root)
-frame.pack()
+main_options = tk.Frame(root)
+main_options.pack()
 
-tk.Label(frame, text="File path").grid(row=0, column=0, sticky=tk.W)
-tk.Label(frame, text="Output File Name").grid(row=1, column=0, sticky=tk.W)
-label1 = tk.Label(frame, text="")
+tk.Label(main_options, text="File path").grid(row=0, column=0, sticky=tk.W)
+tk.Label(main_options, text="Output File Name").grid(row=1, column=0, sticky=tk.W)
+label1 = tk.Label(main_options, text="")
 label1.grid(row=0,column=2, sticky=tk.W)
-label2 = tk.Label(frame, text="")
+label2 = tk.Label(main_options, text="")
 label2.grid(row=1,column=2, sticky=tk.W)
-label3 = tk.Label(frame, text="")
+label3 = tk.Label(main_options, text="")
 label3.grid(row=2,column=0, sticky=tk.W)
 
 
-file = tk.Button(frame, text="Open File", command=open_file)
-entry2 = tk.Entry(frame)
+file = tk.Button(main_options, text="Open File", command=open_file)
+entry2 = tk.Entry(main_options)
 
 file.grid(row=0, column=1)
 entry2.grid(row=1, column=1)
 
-button1 = tk.Button(frame, text="OK", width=15, command=get_name)
+button1 = tk.Button(main_options, text="OK", command=get_name)
 button1.grid(row=2, column=1)
 
-button2 = tk.Button(frame, text="Start Compiling", width=15, command=process)
-button2.grid(row=20, column=1)
-
-label3 = tk.Label(frame, text="")
+label3 = tk.Label(main_options, text="")
 label3.grid(row=3,column=0, sticky=tk.W)
 
 
+custom_options = tk.Frame(root)
+custom_options.pack()
 
 # custom indicators
 custom_ind = tk.IntVar()
-check0 = tk.Checkbutton(frame, text="I used custom indicators", variable=custom_ind, command=custom)
+check0 = tk.Checkbutton(custom_options, text="I used custom indicators", variable=custom_ind, command=custom)
 check0.grid(row=3, column=0, sticky=tk.W)
 
-label4 = tk.Label(frame, text="Indicators Customized: ")
+label4 = tk.Label(custom_options, text="Indicators Customized: ")
 
 var1 = tk.IntVar()
 var2 = tk.IntVar()
 var3 = tk.IntVar()
 
-check1 = tk.Checkbutton(frame, text="New Decision: ", variable=var1, command=check_new_d)
-check2 = tk.Checkbutton(frame, text="Next Decision: ", variable=var2, command=check_jump)
-check3 = tk.Checkbutton(frame, text="Option seperator: ", variable=var3, command=check_option_sep)
+check1 = tk.Checkbutton(custom_options, text="New Decision: ", variable=var1, command=check_new_d)
+check2 = tk.Checkbutton(custom_options, text="Next Decision: ", variable=var2, command=check_jump)
+check3 = tk.Checkbutton(custom_options, text="Option seperator: ", variable=var3, command=check_option_sep)
 
-new_d = tk.Entry(frame)
-jump = tk.Entry(frame)
-option_sep = tk.Entry(frame)
+new_d = tk.Entry(custom_options)
+jump = tk.Entry(custom_options)
+option_sep = tk.Entry(custom_options)
 
 custom_newline = tk.IntVar()
-newline = tk.Checkbutton(frame, text="I want a custom symbol for new lines", variable=custom_newline, command=custom_line)
+newline = tk.Checkbutton(custom_options, text="I want a custom symbol for new lines", variable=custom_newline, command=custom_line)
 newline.grid(row=4, column=0, sticky=tk.W)
 
-newline_enter = tk.Entry(frame)
-newline_text = tk.Label(frame, text="Custom Symbol: ")
+newline_enter = tk.Entry(custom_options)
+newline_text = tk.Label(custom_options, text="Custom Symbol: ")
 
-button2 = tk.Button(frame, text="Confirm Custom Symbols", width=15, command=get_custom)
+button2 = tk.Button(custom_options, text="Confirm Custom Symbols", command=get_custom)
 button2.grid(row=18, column=1)
 
-confirm1 = tk.Label(frame, text="")
-confirm2 = tk.Label(frame, text="")
-confirm3 = tk.Label(frame, text="")
-confirm4 = tk.Label(frame, text="")
+confirm1 = tk.Label(custom_options, text="")
+confirm2 = tk.Label(custom_options, text="")
+confirm3 = tk.Label(custom_options, text="")
+confirm4 = tk.Label(custom_options, text="")
 
 confirm1.grid(row=18, column=0)
 confirm2.grid(row=19, column=0)
@@ -391,5 +390,8 @@ confirm4.grid(row=21, column=0)
 end_label = tk.Label(root,text="")
 end_label.pack()
 
+
+button2 = tk.Button(root, text="Start Compiling", width=15, command=process)
+button2.pack()
 
 root.mainloop()
