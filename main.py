@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import filedialog
+from sys import platform
 
 RED = "\033[31m"
 YELLOW = "\033[33m"
@@ -320,7 +321,10 @@ root = tk.Tk(baseName='Text Adventure Maker')
 root.title("Text Adventure Game Maker (Compiler)")
 root.geometry("700x500")
 
-main_options = tk.Frame(root)
+container = tk.Frame(root)
+container.pack(expand=True)
+
+main_options = tk.Frame(container)
 main_options.pack()
 
 file_selector = tk.Frame(main_options)
@@ -340,8 +344,6 @@ entry2.grid(row=0, column=1)
 button1 = tk.Button(output_selector, text="OK", command=get_name)
 button1.grid(row=0, column=2)
 
-label3 = tk.Label(output_selector, text="")
-
 file_selector.pack()
 label1 = tk.Label(main_options, text="")
 label1.pack()
@@ -352,7 +354,7 @@ label2.pack()
 
 
 # custom indicators
-custom_options = tk.Frame(root)
+custom_options = tk.Frame(container)
 custom_options.pack()
 
 custom_ind = tk.IntVar()
@@ -397,15 +399,16 @@ confirm4.grid(row=21, column=0)
 label3 = tk.Label(main_options, text="")
 label3.pack()
 
-end_label = tk.Label(root,text="")
+end_label = tk.Label(container,text="")
 end_label.pack()
 
-button3 = tk.Button(root, text="Start Compiling", width=15, command=process)
+button3 = tk.Button(container, text="Start Compiling", width=15, command=process)
 button3.pack()
 
 # colors!
 all_widgets = [
     root,
+    container,
     custom_options,
     main_options,
     file_label,
@@ -433,6 +436,23 @@ all_widgets = [
     end_label,
 ]
 
+fill_options = [
+    new_d,
+    jump,
+    option_sep,
+    newline_text,
+    entry2
+]
+
+small_text = [
+    confirm1,
+    confirm2,
+    confirm3,
+    confirm4,
+    label1,
+    label2
+]
+
 colors = {"fg": "ivory1",
           "bg": "ivory4",
           "small": "ivory3"}
@@ -443,7 +463,25 @@ main_options.configure(bg=colors["fg"])
 
 for i in all_widgets:
     i.configure(bg=colors["fg"])
+    if isinstance(i, tk.Label) or isinstance(i, tk.Checkbutton):
+        i.configure(fg=colors["bg"])
+    if isinstance(i, tk.Button):
+        i.configure(highlightbackground=colors["fg"], fg=colors["bg"])
+
+for i in fill_options:
+    i.configure(bg=colors["bg"],fg=colors["fg"])
+    i.configure(highlightbackground=colors["fg"])
+
+for i in small_text:
+    i.configure(fg=colors["small"])
+
+
 
 button3.configure(bg=colors["bg"], fg=colors["fg"])
+if platform == "darwin":
+    button3.configure(fg=colors["bg"])
+
+newline_text.configure(bg=colors["fg"], fg=colors["bg"])
+newline_enter.configure(bg=colors["bg"], fg=colors["fg"], highlightbackground=colors["fg"])
 
 root.mainloop()
