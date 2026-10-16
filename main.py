@@ -315,15 +315,26 @@ def get_custom():
     if new_decision.strip() != "":
         confirm1.config(text=f"New Decision Indicator: {new_decision}")
         confirm1.grid(row=18, column=0)
+    else:
+        confirm1.grid_forget()
+
     if next_decision.strip() != "":
         confirm2.config(text=f"Next Decision Indicator: {next_decision}")
         confirm2.grid(row=19, column=0)
+    else:
+        confirm2.grid_forget()
+
     if option_seperator.strip() != "":
         confirm3.config(text=f"Option Seperator: {option_seperator}")
         confirm3.grid(row=20, column=0)
+    else:
+        confirm3.grid_forget()
+
     if new_line.strip() != "":
         confirm4.config(text=f"New Line Symbol: {new_line}")
         confirm4.grid(row=21, column=0)
+    else:
+        confirm4.grid_forget()
 
 
 

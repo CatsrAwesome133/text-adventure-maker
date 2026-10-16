@@ -4,4 +4,5 @@
 - Add prefix-suffix customization
 - Add auto mode/build
 - Switch customs to dictionary instead of variable hell
-- grid the custom tooltip instead of config
+- grid the custom tooltip instead of config - DONE
+- delete unchecked customs properly - DONE
