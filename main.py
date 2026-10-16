@@ -46,7 +46,7 @@ def process(newline="··> ", new_decision_indicator="#", jump=None, opt_sep=">"
         label3.config(text="That file already exists. Please change the name and try again.")
         return
 
-    print(newline,"; ",new_decision_indicator,"; ",jump,"; ",option_sep)
+    print(newline,"; ", new_decision_indicator,"; ", jump,"; ", option_seperator_entry)
 
 
 
@@ -245,11 +245,11 @@ def custom():
         newline.grid(row=10, column=0, sticky=tk.W)
 
         if var1.get():
-            new_d.grid(row=6, column=1, sticky=tk.W)
+            new_decision_entry.grid(row=6, column=1, sticky=tk.W)
         if var2.get():
-            jump.grid(row=7, column=1, sticky=tk.W)
+            jump_entry.grid(row=7, column=1, sticky=tk.W)
         if var3.get():
-            option_sep.grid(row=8, column=1, sticky=tk.W)
+            option_seperator_entry.grid(row=8, column=1, sticky=tk.W)
 
         if custom_newline.get():
             newline_enter.grid(row=11, column=1, sticky=tk.W)
@@ -261,28 +261,31 @@ def custom():
         check2.grid_forget()
         check3.grid_forget()
 
-        new_d.grid_forget()
-        jump.grid_forget()
-        option_sep.grid_forget()
+        new_decision_entry.grid_forget()
+        jump_entry.grid_forget()
+        option_seperator_entry.grid_forget()
 
 
 def check_new_d():
     if var1.get():
-        new_d.grid(row=6, column=1, sticky=tk.W)
+        new_decision_entry.grid(row=6, column=1, sticky=tk.W)
     else:
-        new_d.grid_forget()
+        new_decision_entry.grid_forget()
+        new_decision_entry.delete(0, 'end')
 
 def check_jump():
     if var2.get():
-        jump.grid(row=7, column=1, sticky=tk.W)
+        jump_entry.grid(row=7, column=1, sticky=tk.W)
     else:
-        jump.grid_forget()
+        jump_entry.grid_forget()
+        jump_entry.delete(0, 'end')
 
 def check_option_sep():
     if var3.get():
-        option_sep.grid(row=8, column=1, sticky=tk.W)
+        option_seperator_entry.grid(row=8, column=1, sticky=tk.W)
     else:
-        option_sep.grid_forget()
+        option_seperator_entry.grid_forget()
+        option_seperator_entry.delete(0, 'end')
 
 def custom_line():
     if custom_newline.get():
@@ -295,6 +298,7 @@ def custom_line():
     else:
         newline_enter.grid_forget()
         newline_text.grid_forget()
+        newline_enter.delete(0, 'end')
 
 
 def get_custom():
@@ -304,18 +308,22 @@ def get_custom():
     global option_seperator
 
     new_line = str(newline_enter.get())
-    new_decision = str(new_d.get())
-    next_decision = str(jump.get())
-    option_seperator = str(option_sep.get())
+    new_decision = str(new_decision_entry.get())
+    next_decision = str(jump_entry.get())
+    option_seperator = str(option_seperator_entry.get())
 
     if new_decision.strip() != "":
         confirm1.config(text=f"New Decision Indicator: {new_decision}")
+        confirm1.grid(row=18, column=0)
     if next_decision.strip() != "":
         confirm2.config(text=f"Next Decision Indicator: {next_decision}")
+        confirm2.grid(row=19, column=0)
     if option_seperator.strip() != "":
         confirm3.config(text=f"Option Seperator: {option_seperator}")
+        confirm3.grid(row=20, column=0)
     if new_line.strip() != "":
         confirm4.config(text=f"New Line Symbol: {new_line}")
+        confirm4.grid(row=21, column=0)
 
 
 
@@ -375,9 +383,9 @@ check1 = tk.Checkbutton(custom_options, text="New Decision: ", variable=var1, co
 check2 = tk.Checkbutton(custom_options, text="Next Decision: ", variable=var2, command=check_jump)
 check3 = tk.Checkbutton(custom_options, text="Option seperator: ", variable=var3, command=check_option_sep)
 
-new_d = tk.Entry(custom_options)
-jump = tk.Entry(custom_options)
-option_sep = tk.Entry(custom_options)
+new_decision_entry = tk.Entry(custom_options)
+jump_entry = tk.Entry(custom_options)
+option_seperator_entry = tk.Entry(custom_options)
 
 custom_newline = tk.IntVar()
 newline = tk.Checkbutton(custom_options, text="I want a custom symbol for new lines", variable=custom_newline, command=custom_line)
@@ -393,11 +401,6 @@ confirm1 = tk.Label(custom_options, text="")
 confirm2 = tk.Label(custom_options, text="")
 confirm3 = tk.Label(custom_options, text="")
 confirm4 = tk.Label(custom_options, text="")
-
-confirm1.grid(row=18, column=0)
-confirm2.grid(row=19, column=0)
-confirm3.grid(row=20, column=0)
-confirm4.grid(row=21, column=0)
 
 
 label3 = tk.Label(main_options, text="")
@@ -441,10 +444,10 @@ all_widgets = [
 ]
 
 fill_options = [
-    new_d,
-    jump,
-    option_sep,
-    newline_text,
+    new_decision_entry,
+    jump_entry,
+    option_seperator_entry,
+    newline_enter,
     entry2
 ]
 
@@ -479,13 +482,8 @@ for i in fill_options:
 for i in small_text:
     i.configure(fg=colors["small"])
 
-
-
 button3.configure(bg=colors["bg"], fg=colors["fg"])
 if platform == "darwin":
     button3.configure(fg=colors["bg"])
-
-newline_text.configure(bg=colors["fg"], fg=colors["bg"])
-newline_enter.configure(bg=colors["bg"], fg=colors["fg"], highlightbackground=colors["fg"])
 
 root.mainloop()
