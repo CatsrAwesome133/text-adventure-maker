@@ -188,7 +188,7 @@ def process(newline="··> ", new_decision_indicator="#", jump=None, opt_sep=">"
 
     print(current)
 
-    with open(f"{file_name}.py", "a") as f:
+    with open(f"{file_name}.py", "a", encoding="utf-8") as f:
         f.write("from classes import Decision\n")
         for item in current:
             all_decisions += f'"{item}": {item},\n'

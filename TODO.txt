@@ -1,4 +1,4 @@
 - Improve UI
 --> Add themes (just because)
 - Add prefix-suffix customization
-- Add auto mode/build
+- Add auto mode/build - WIP
