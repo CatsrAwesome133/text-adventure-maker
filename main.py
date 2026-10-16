@@ -308,10 +308,14 @@ def get_custom():
     next_decision = str(jump.get())
     option_seperator = str(option_sep.get())
 
-    confirm1.config(text=f"New Decision Indicator: {new_decision}")
-    confirm2.config(text=f"Next Decision Indicator: {next_decision}")
-    confirm3.config(text=f"Option Seperator: {option_seperator}")
-    confirm4.config(text=f"New Line Symbol: {new_line}")
+    if new_decision.strip() != "":
+        confirm1.config(text=f"New Decision Indicator: {new_decision}")
+    if next_decision.strip() != "":
+        confirm2.config(text=f"Next Decision Indicator: {next_decision}")
+    if option_seperator.strip() != "":
+        confirm3.config(text=f"Option Seperator: {option_seperator}")
+    if new_line.strip() != "":
+        confirm4.config(text=f"New Line Symbol: {new_line}")
 
 
 
