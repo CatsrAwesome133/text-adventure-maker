@@ -317,31 +317,21 @@ def get_custom():
         "opts": str(option_seperator_entry.get()).strip(),
     }
 
-    if customs["new_d"] != "":
-        confirm1.config(text=f"New Decision Indicator: {customs['new_d']}")
-        confirm1.grid(row=18, column=0)
-    else:
-        confirm1.grid_forget()
+    stuff=[
+        [customs["new_d"], confirm1, "New Decision Indicator", 18],
+        [customs["jump"], confirm2, "Next Decision Indicator", 19],
+        [customs["opts"], confirm3, "Option Seperator", 20],
+        [customs["new_line"], confirm4, "New Line Symbol", 21]
+    ]
 
-    if customs["jump"] != "":
-        confirm2.config(text=f"Next Decision Indicator: {customs['jump']}")
-        confirm2.grid(row=19, column=0)
-    else:
-        confirm2.grid_forget()
+    for i in stuff:
+        if i[0] != "":
+            i[1].config(text=f"{i[2]}: {i[0]}")
+            i[1].grid(row=i[3], column=0)
+        else:
+            i[1].grid_forget()
 
-    if customs["opts"] != "":
-        confirm3.config(text=f"Option Seperator: {customs['opts']}")
-        confirm3.grid(row=20, column=0)
-    else:
-        confirm3.grid_forget()
-
-    if customs["new_line"] != "":
-        confirm4.config(text=f"New Line Symbol: {customs['new_line']}")
-        confirm4.grid(row=21, column=0)
-    else:
-        confirm4.grid_forget()
-
-
+    
 
 
 # the UI

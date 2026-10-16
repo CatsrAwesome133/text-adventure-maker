@@ -2,3 +2,4 @@
 --> Add themes (just because)
 - Add prefix-suffix customization
 - Add auto mode/build - WIP
+- Fix unchecking custom not removing indicator from the list
