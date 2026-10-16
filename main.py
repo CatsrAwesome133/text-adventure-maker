@@ -8,7 +8,6 @@ GREEN = "\033[32m"
 BLUE = "\033[34m"
 RESET = "\033[0m"
 
-# STRICTLY USE DOUBLE QUOTES IN THIS CODE
 
 path = None
 name = None
@@ -17,27 +16,34 @@ new_decision = ""
 next_decision = ""
 option_seperator = ""
 
+customs = {
+    "new_line": "",
+    "new_d": "",
+    "jump": "",
+    "opts": "",
+}
+
+
+
 def process(newline="··> ", new_decision_indicator="#", jump=None, opt_sep=">"):
     global path
     global name
 
-    global new_line
-    if new_line.strip() != "":
-        newline = new_line
+    global customs
 
-    global new_decision
-    if new_decision.strip() != "":
-        new_decision_indicator = new_decision
+    if customs["new_line"] != "":
+        newline = customs["new_line"]
 
-    global next_decision
-    if next_decision.strip() != "":
-        jump = next_decision
+    if customs["new_d"] != "":
+        new_decision_indicator = customs["new_d"]
+
+    if customs["jump"] != "":
+        jump = customs["jump"]
     else:
         jump = None
 
-    global option_seperator
-    if option_seperator.strip() != "":
-        opt_sep = option_seperator
+    if customs["opts"] != "":
+        opt_sep = customs["opts"]
 
 
     try:
@@ -302,36 +308,35 @@ def custom_line():
 
 
 def get_custom():
-    global new_line
-    global new_decision
-    global next_decision
-    global option_seperator
+    global customs
 
-    new_line = str(newline_enter.get())
-    new_decision = str(new_decision_entry.get())
-    next_decision = str(jump_entry.get())
-    option_seperator = str(option_seperator_entry.get())
+    customs = {
+        "new_line": str(newline_enter.get()).strip(),
+        "new_d": str(new_decision_entry.get()).strip(),
+        "jump": str(jump_entry.get()).strip(),
+        "opts": str(option_seperator_entry.get()).strip(),
+    }
 
-    if new_decision.strip() != "":
-        confirm1.config(text=f"New Decision Indicator: {new_decision}")
+    if customs["new_d"] != "":
+        confirm1.config(text=f"New Decision Indicator: {customs['new_d']}")
         confirm1.grid(row=18, column=0)
     else:
         confirm1.grid_forget()
 
-    if next_decision.strip() != "":
-        confirm2.config(text=f"Next Decision Indicator: {next_decision}")
+    if customs["jump"] != "":
+        confirm2.config(text=f"Next Decision Indicator: {customs['jump']}")
         confirm2.grid(row=19, column=0)
     else:
         confirm2.grid_forget()
 
-    if option_seperator.strip() != "":
-        confirm3.config(text=f"Option Seperator: {option_seperator}")
+    if customs["opts"] != "":
+        confirm3.config(text=f"Option Seperator: {customs['opts']}")
         confirm3.grid(row=20, column=0)
     else:
         confirm3.grid_forget()
 
-    if new_line.strip() != "":
-        confirm4.config(text=f"New Line Symbol: {new_line}")
+    if customs["new_line"] != "":
+        confirm4.config(text=f"New Line Symbol: {customs['new_line']}")
         confirm4.grid(row=21, column=0)
     else:
         confirm4.grid_forget()
