@@ -42,13 +42,21 @@ def set_colors():
             i.configure(fg=colors["bg"])
         if isinstance(i, tk.Button):
             i.configure(highlightbackground=colors["fg"], fg=colors["bg"])
-            i.configure(activebackground=colors["small"], activeforeground=colors["fg"])
+            if dark.get():
+                i.configure(activebackground=colors["darkest"], activeforeground=colors["bg"])
+            else:
+                i.configure(activebackground=colors["small"], activeforeground=colors["bg"])
         if isinstance(i, tk.Checkbutton):
             i.configure(activebackground=colors["fg"], activeforeground=colors["bg"])
+            if dark.get():
+                i.configure(selectcolor=colors["darkest"])
+        
 
     for i in fill_options:
         i.configure(bg=colors["bg"],fg=colors["fg"])
         i.configure(highlightbackground=colors["fg"])
+        if dark.get():
+            i.configure(bg=colors["darkest"], fg=colors["bg"])
 
     for i in small_text:
         i.configure(fg=colors["small"])
@@ -381,12 +389,29 @@ def theme_switch():
         colors = {"fg": "azure1",
                   "bg": "azure4",
                   "small": "azure3"}
-    else:
+    if dark.get():
+        colors = {
+            "fg": "#333333",
+            "bg": "#cfcfcf",
+            "small": "#7a7a7a",
+            "darkest": "#111111"
+        }
+    if dark.get() and theme.get():
+            colors = {
+                "fg": "#3B3C47",
+                "bg": "#b9c9d5",
+                "small": "#7f8c98",
+                "darkest": "#26252D"
+            }
+    if not dark.get() and not theme.get():
         colors = {"fg": "ivory1",
                   "bg": "ivory4",
                   "small": "ivory3"}
 
     set_colors()
+
+def dark_switch():
+    theme_switch()
 
     
 
@@ -469,6 +494,11 @@ theme = tk.IntVar()
 theme_toggle = tk.Checkbutton(custom_options, text="Use Alternate Menu Colors", variable=theme, command=theme_switch)
 theme_toggle.grid(row=19, column=1)
 
+dark = tk.IntVar()
+dark_toggle = tk.Checkbutton(custom_options, text="Dark Mode", variable=dark, command=dark_switch)
+dark_toggle.grid(row=20, column=1)
+
+
 
 
 end_label = tk.Label(container,text="")
@@ -510,7 +540,8 @@ all_widgets = [
     confirm4,
     file,
     end_label,
-    theme_toggle
+    theme_toggle,
+    dark_toggle
 ]
 
 fill_options = [

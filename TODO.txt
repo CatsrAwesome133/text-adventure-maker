@@ -1,4 +1,5 @@
 - Improve UI
---> Add themes (just because)
+--> move themes
+--> add title
 - Add prefix-suffix customization
 - Add auto mode/build - WIP
