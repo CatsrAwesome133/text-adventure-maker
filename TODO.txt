@@ -1,1 +1,1 @@
-- allow selecting choice mode
+- reformat to grid 
