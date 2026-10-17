@@ -427,6 +427,9 @@ def get_custom():
         for i in stuff:
             i[0] = ""
             i[1].grid_forget()
+    if custom_newline.get():
+        customs["new_line"] = str(newline_enter.get()).strip()
+        confirm4.grid()
 
 
 def theme_switch():
@@ -466,10 +469,12 @@ def dark_switch():
 # the UI
 root = tk.Tk(baseName='Text Adventure Maker')
 root.title("Text Adventure Game Maker (Compiler)")
-root.geometry("600x700")
+root.geometry("800x500")
 
 container = tk.Frame(root)
 container.pack(expand=True)
+
+options_container = tk.Frame(container)
 
 # Title text
 heading = tk.Frame(container)
@@ -492,17 +497,17 @@ title.grid(row=0)
 subtitle.grid(row=1)
 theme_container.grid(row=2)
 
-
-
 padding = tk.Label(heading, text="")
 padding.grid(row=5)
+
+options_container.pack()
 
 
 # main UI
 c = tk.Label(container, text="")
 c.pack()
-main_options = tk.Frame(container)
-main_options.pack()
+main_options = tk.Frame(options_container)
+main_options.grid(row=0, column=0, padx=40)
 
 file_selector = tk.Frame(main_options)
 output_selector = tk.Frame(main_options)
@@ -529,8 +534,8 @@ last_label = tk.Label(fl_selector, text="Ending Decision: ")
 
 entry3.grid(row=0, column=1)
 entry4.grid(row=1, column=1)
-first_label.grid(row=0, column=0)
-last_label.grid(row=1, column=0)
+first_label.grid(row=0, column=0, sticky=tk.W)
+last_label.grid(row=1, column=0, sticky=tk.W)
 
 fl_button = tk.Button(fl_selector, text="OK", command=get_fl)
 fl_button.grid(row=2, column=2)
@@ -538,10 +543,10 @@ fl_button.grid(row=2, column=2)
 file_selector.pack()
 label1 = tk.Label(main_options, text="")
 label1.pack()
-output_selector.pack()
+output_selector.pack(anchor="e")
 label2 = tk.Label(main_options, text="")
 label2.pack()
-fl_selector.pack()
+fl_selector.pack(anchor="e")
 fl_confirm = tk.Label(main_options, text="")
 fl_confirm.pack()
 
@@ -552,13 +557,8 @@ show_options.pack()
 
 
 # custom indicators
-a = tk.Label(container, text="")
-b = tk.Label(container, text="")
-a.pack()
-b.pack()
-
-custom_options = tk.Frame(container)
-custom_options.pack()
+custom_options = tk.Frame(options_container)
+custom_options.grid(row=0, column=1)
 
 custom_ind = tk.IntVar()
 check0 = tk.Checkbutton(custom_options, text="I used custom indicators", variable=custom_ind, command=custom)
@@ -586,7 +586,7 @@ newline_enter = tk.Entry(custom_options)
 newline_text = tk.Label(custom_options, text="Custom Symbol: ")
 
 button2 = tk.Button(custom_options, text="Confirm Custom Symbols", command=get_custom)
-button2.grid(row=18, column=1)
+button2.grid(row=18, column=1, pady=5)
 
 confirm1 = tk.Label(custom_options, text="")
 confirm2 = tk.Label(custom_options, text="")
@@ -647,8 +647,7 @@ all_widgets = [
     fl_selector,
     fl_confirm,
     show_options,
-    a,
-    b,
+    options_container,
     c
 ]
 
