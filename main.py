@@ -50,6 +50,8 @@ def set_colors():
             i.configure(activebackground=colors["fg"], activeforeground=colors["bg"])
             if dark.get():
                 i.configure(selectcolor=colors["darkest"])
+            else:
+                i.configure(selectcolor="white")
         
 
     for i in fill_options:
@@ -60,6 +62,8 @@ def set_colors():
 
     for i in small_text:
         i.configure(fg=colors["small"])
+        if isinstance(i, tk.Checkbutton) and not dark.get():
+            i.configure(selectcolor=colors["fg"])
 
     button3.configure(bg=colors["bg"], fg=colors["fg"])
     if platform == "darwin":
@@ -430,11 +434,25 @@ heading.pack()
 
 title = tk.Label(heading, text="Text Adventure Maker", font=("Garamond", 18, "bold"),)
 subtitle = tk.Label(heading, text="(Script -> Python Dictionary)")
-padding = tk.Label(heading, text="")
+theme = tk.IntVar()
 
-title.pack()
-subtitle.pack()
-padding.pack()
+theme_container = tk.Frame(heading)
+
+theme_toggle = tk.Checkbutton(theme_container, text="Make My Screen Blue", variable=theme, command=theme_switch)
+theme_toggle.grid(row=0, column=0)
+
+dark = tk.IntVar()
+dark_toggle = tk.Checkbutton(theme_container, text="Dark Mode", variable=dark, command=dark_switch)
+dark_toggle.grid(row=0, column=1)
+
+title.grid(row=0)
+subtitle.grid(row=1)
+theme_container.grid(row=2)
+
+
+
+padding = tk.Label(heading, text="")
+padding.grid(row=5)
 
 
 # main UI
@@ -504,14 +522,6 @@ confirm2 = tk.Label(custom_options, text="")
 confirm3 = tk.Label(custom_options, text="")
 confirm4 = tk.Label(custom_options, text="")
 
-theme = tk.IntVar()
-theme_toggle = tk.Checkbutton(custom_options, text="Use Alternate Menu Colors", variable=theme, command=theme_switch)
-theme_toggle.grid(row=19, column=1)
-
-dark = tk.IntVar()
-dark_toggle = tk.Checkbutton(custom_options, text="Dark Mode", variable=dark, command=dark_switch)
-dark_toggle.grid(row=20, column=1)
-
 
 
 
@@ -577,7 +587,9 @@ small_text = [
     confirm4,
     label1,
     label2,
-    subtitle
+    subtitle,
+    theme_toggle,
+    dark_toggle
 ]
 
 set_colors()
