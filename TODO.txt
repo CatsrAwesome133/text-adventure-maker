@@ -1,4 +1,3 @@
-- Improve UI
---> move themes
-- Add prefix-suffix customization
 - Add auto mode/build - WIP
+- register first and last option
+- edit README
