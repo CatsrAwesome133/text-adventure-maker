@@ -34,6 +34,14 @@ Now you're set! You can add whatever other features you want, of course.
 
 **If you're using the automatic build:**
 
+Before you press "Start Compliling", you'll need to add a few other inputs. Enter the code of the first and last decisions in your script.
+
+The first decision is the decision indicator for your first decision. In the demo, it's `#FFFF`, so I'll write "FFFF" as the input.
+
+The last decision is the next decision indicator for the last texts you make. You don't need to write out an entire decision for this, the code only looks for the indicator! In the demo, this is written as `[CAP2]`, so I'll write "CAP2" as the input.
+
+Note that the game will stop once a decision says to jump to the ending "decision", so keep your ending text in the file too!
+
 Run the output file, and play your game!
 
 ## Using Custom Indicators
