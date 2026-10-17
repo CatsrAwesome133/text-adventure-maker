@@ -424,6 +424,20 @@ root.geometry("700x500")
 container = tk.Frame(root)
 container.pack(expand=True)
 
+# Title text
+heading = tk.Frame(container)
+heading.pack()
+
+title = tk.Label(heading, text="Text Adventure Maker", font=("Garamond", 18, "bold"),)
+subtitle = tk.Label(heading, text="(Script -> Python Dictionary)")
+padding = tk.Label(heading, text="")
+
+title.pack()
+subtitle.pack()
+padding.pack()
+
+
+# main UI
 main_options = tk.Frame(container)
 main_options.pack()
 
@@ -541,7 +555,11 @@ all_widgets = [
     file,
     end_label,
     theme_toggle,
-    dark_toggle
+    dark_toggle,
+    heading,
+    title,
+    subtitle,
+    padding
 ]
 
 fill_options = [
@@ -558,7 +576,8 @@ small_text = [
     confirm3,
     confirm4,
     label1,
-    label2
+    label2,
+    subtitle
 ]
 
 set_colors()
