@@ -73,8 +73,9 @@ def set_colors():
 def process(newline="··> ", new_decision_indicator="#", jump=None, opt_sep=">"):
     global path
     global name
-
     global customs
+    global first_option
+    global last_option
 
     if customs["new_line"] != "":
         newline = customs["new_line"]
@@ -236,18 +237,21 @@ def process(newline="··> ", new_decision_indicator="#", jump=None, opt_sep=">"
 
     with open(f"{file_name}.py", "a", encoding="utf-8") as f:
         # writes the decisions class to the file
-        prior_classes = 'import random\n\n\nclass Decision:\n\n    def __init__(self,options:dict,text_tags:dict={\n        "SysPre": "╖",\n        "SysPost": " > ",\n        "Choose": "  I choose╖╖> ",\n        "ChooseFail": "          ╖╖> ",\n        "Bar": "   ╖ ╖╖>    -    <╖╖ ╖   ",\n    }, id_all_caps=True):\n        # Options should be a dictionary in this format: {index: [choice text, narration text, jump id]}\n        # Text tags are here for formatting\n        # The dict, if passed, should contain the following keys: "SysPre", "SysPost", "Choose", "ChooseFail", and "Bar"\n        \n        # Making variables with a scope of the entire class\n        self.options = options\n        self.numbers = {}\n        self.text_tags = text_tags\n        self.id_all_caps = id_all_caps\n\n        # Tries a bit to make sure that the values in options are valid\n        if type(self.options) != dict:\n            raise TypeError("options must be a dictionary")\n        if type(text_tags) != dict:\n            raise TypeError("text_tags must be a dictionary")\n        for key in ["SysPre", "SysPost", "Choose", "ChooseFail", "Bar"]:\n            if key not in self.text_tags:\n                raise KeyError(f"text_tags must contain the key \'{key}\'")\n        counter = 1\n        for index in self.options:\n            if type(index) != int and type(index) != str:\n                raise TypeError("indexes must be integers or strings")\n            if type(self.options[index]) != list:\n                raise TypeError("keys should be lists in this format: [choice text, narration text, jump id]")\n            \n            self.numbers[str(counter)] = index # Adds indexted numbers so the user can input that too. Selectors under show() have no effect on this\n            counter += 1\n\n\n    # A snippet so that the object can be printed in a more readable format\n    def __repr__(self):\n        return f"Decision({self.options})"\n\n\n    def show(self,selectors="All",newline=True):\n        # Selectors can be one of the following: "All", "ID", "Index"\n        # Selectors defaults to "All" and so do any invalid inputs\n        # newline adds a line before options are displayed. wow what a suprise\n\n        # initiates counter & adds a new line if that\'s True\n        if newline:\n            print()\n\n        counter = 1\n\n        # Displaying options\n        for option in self.options:\n            if selectors.lower() == "ID":\n                print(f"{self.text_tags[\'SysPre\']}{option}{self.text_tags[\'SysPost\']}" +\n                    self.options[option][0])\n            elif selectors.lower() == "Index":\n                print(f"{self.text_tags[\'SysPre\']}{counter}{self.text_tags[\'SysPost\']}" +\n                    self.options[option][0])\n            else:\n                print(f"{self.text_tags[\'SysPre\']}{option}/{counter}{self.text_tags[\'SysPost\']}" +\n                    self.options[option][0])\n            counter += 1\n\n\n    def make(self):\n        # in hindsight, \'make\' was a terrible name\n        # id_all_caps is true because mine are, in fact, all caps\n\n        # Gets first choice & initializes result to be returned later\n        # Does the random thing if options have a 4th value (weights)\n        manual = False\n        try:\n            chances = []\n            for key in self.options:\n                chances.append(self.options[key][3])\n            \n            new = random.choices(list(self.options.keys()), weights=chances, k=1)\n            result = self.options[new[0]]\n        except IndexError:\n            manual = True\n\n        # Does the normal thing if manual is true\n        if manual:\n            choice = input(self.text_tags["Choose"])\n            result = ""\n\n            # Validation for the choice\n            valid = False\n            while not valid:\n                if self.id_all_caps:\n                    choice = choice.upper()\n                try:\n\n                    # Inner try/except for if the user inputs a number\n                    try:\n                        choice = self.numbers[choice]\n                        print("Choice: "+choice)\n                    except KeyError:\n                        pass\n\n                    # Sets result if choice is valid\n                    result = self.options[choice]\n                    valid = True\n\n                # Except says "nope" if the choice is invalid\n                except (IndexError,KeyError):\n                    print("Um, you can\'t do that. Try again?")\n                    choice = input(self.text_tags["ChooseFail"])\n\n        # Displays the narration text and returns the jump id\n        print("\\n"+self.text_tags["Bar"]+"\\n")\n        print(self.text_tags["SysPre"] + self.text_tags["SysPost"] + result[1])\n        return result[2]\n\nif __name__ == \'__main__\':\n    # Initiaizes every decision to make\n    new = Decision({"A": ["choose a","A!!", "B"]})\n    second = Decision({"A": ["choose a", "No!!!", "A"],\n                       "B": ["choose b", "yea!", "C"]\n                       })\n    third = Decision({"A": ["choose a", "A!", "D", 0.5],\n                           "B": ["choose b", "B!", "D", 0.5]\n                           })\n    \n    # Dict of all options with IDs\n    all_options = {\n        "A": new,\n        "B": second,\n        "C": third\n    }\n\n    # Game loop\n    all_options["A"].show()\n    next = all_options["A"].make()\n    playing = True\n    while playing:\n        all_options[next].show()\n        print()\n        next = all_options[next].make()\n        if next == "D":\n            playing = False\n    '
+        prior_classes = 'import random\n\n\nclass Decision:\n\n    def __init__(self,options:dict,text_tags:dict={\n        "SysPre": "╖",\n        "SysPost": " > ",\n        "Choose": "  I choose╖╖> ",\n        "ChooseFail": "          ╖╖> ",\n        "Bar": "   ╖ ╖╖>    -    <╖╖ ╖   ",\n    }, id_all_caps=True):\n        # Options should be a dictionary in this format: {index: [choice text, narration text, jump id]}\n        # Text tags are here for formatting\n        # The dict, if passed, should contain the following keys: "SysPre", "SysPost", "Choose", "ChooseFail", and "Bar"\n        \n        # Making variables with a scope of the entire class\n        self.options = options\n        self.numbers = {}\n        self.text_tags = text_tags\n        self.id_all_caps = id_all_caps\n\n        # Tries a bit to make sure that the values in options are valid\n        if type(self.options) != dict:\n            raise TypeError("options must be a dictionary")\n        if type(text_tags) != dict:\n            raise TypeError("text_tags must be a dictionary")\n        for key in ["SysPre", "SysPost", "Choose", "ChooseFail", "Bar"]:\n            if key not in self.text_tags:\n                raise KeyError(f"text_tags must contain the key \'{key}\'")\n        counter = 1\n        for index in self.options:\n            if type(index) != int and type(index) != str:\n                raise TypeError("indexes must be integers or strings")\n            if type(self.options[index]) != list:\n                raise TypeError("keys should be lists in this format: [choice text, narration text, jump id]")\n            \n            self.numbers[str(counter)] = index # Adds indexted numbers so the user can input that too. Selectors under show() have no effect on this\n            counter += 1\n\n\n    # A snippet so that the object can be printed in a more readable format\n    def __repr__(self):\n        return f"Decision({self.options})"\n\n\n    def show(self,selectors="All",newline=True):\n        # Selectors can be one of the following: "All", "ID", "Index"\n        # Selectors defaults to "All" and so do any invalid inputs\n        # newline adds a line before options are displayed. wow what a suprise\n\n        # initiates counter & adds a new line if that\'s True\n        if newline:\n            print()\n\n        counter = 1\n\n        # Displaying options\n        for option in self.options:\n            if selectors.lower() == "ID":\n                print(f"{self.text_tags[\'SysPre\']}{option}{self.text_tags[\'SysPost\']}" +\n                    self.options[option][0])\n            elif selectors.lower() == "Index":\n                print(f"{self.text_tags[\'SysPre\']}{counter}{self.text_tags[\'SysPost\']}" +\n                    self.options[option][0])\n            else:\n                print(f"{self.text_tags[\'SysPre\']}{option}/{counter}{self.text_tags[\'SysPost\']}" +\n                    self.options[option][0])\n            counter += 1\n\n\n    def make(self):\n        # in hindsight, \'make\' was a terrible name\n        # id_all_caps is true because mine are, in fact, all caps\n\n        # Gets first choice & initializes result to be returned later\n        # Does the random thing if options have a 4th value (weights)\n        manual = False\n        try:\n            chances = []\n            for key in self.options:\n                chances.append(self.options[key][3])\n            \n            new = random.choices(list(self.options.keys()), weights=chances, k=1)\n            result = self.options[new[0]]\n        except IndexError:\n            manual = True\n\n        # Does the normal thing if manual is true\n        if manual:\n            choice = input(self.text_tags["Choose"])\n            result = ""\n\n            # Validation for the choice\n            valid = False\n            while not valid:\n                if self.id_all_caps:\n                    choice = choice.upper()\n                try:\n\n                    # Inner try/except for if the user inputs a number\n                    try:\n                        choice = self.numbers[choice]\n                        print("Choice: "+choice)\n                    except KeyError:\n                        pass\n\n                    # Sets result if choice is valid\n                    result = self.options[choice]\n                    valid = True\n\n                # Except says "nope" if the choice is invalid\n                except (IndexError,KeyError):\n                    print("Um, you can\'t do that. Try again?")\n                    choice = input(self.text_tags["ChooseFail"])\n\n        # Displays the narration text and returns the jump id\n        print("\\n"+self.text_tags["Bar"]+"\\n")\n        print(self.text_tags["SysPre"] + self.text_tags["SysPost"] + result[1])\n        return result[2]\n\n'
         prior_classes = prior_classes.replace("╖", "·")
         f.write(prior_classes)
         end_label.config(text="Setup Complete")
 
         # writes the decisions themselves to the file
-        f.write("from classes import Decision\n")
         for item in current:
             all_decisions += f'"{item}": {item},\n'
             written_line = item + " = Decision(" + str(current[item]) + ")\n"
             f.write(written_line)
-        f.write(all_decisions + "}")
+        f.write(all_decisions + "}\n")
+
+        # writes out the first and last decisions
+        f.write(f"first_option = {repr(first_option)}\n")
+        f.write(f"last_option = {repr(last_option)}\n")
 
         # writes the main game loop
         loop = 'all_decisions[first_option].show()\n\nnext = all_decisions[first_option].make()\nplaying = True\nwhile playing:\n    all_decisions[next].show()\n    print()\n    next = all_decisions[next].make()\n    if next == last_option:\n        playing = False'
@@ -288,7 +292,10 @@ def get_name():
     global name
     n = entry2.get()
     try:
-        if n.strip != "" and n.isalnum():
+        if repr(n) == "''":
+            label2.config(text=f"You haven't entered a name yet!")
+            name = None
+        elif n.strip != "" and n.isalnum():
             name = n
             label2.config(text=f"Ok! The file will save as {name}.py")
         else:
@@ -296,6 +303,20 @@ def get_name():
     except FileExistsError:
         label2.config(text="That file already exists. Please delete or move it and try again.")
         name = None
+
+def get_fl():
+    global first_option
+    global last_option
+
+    first = str(entry3.get())
+    last = str(entry4.get())
+
+    if first == '' or last == '':
+        fl_confirm.config(text="You're missing an input!")
+    else:
+        first_option = first
+        last_option = last
+        fl_confirm.config(text=f"Ok! Your first decision is '{first}' and your last decision is '{last}'")
 
 
 def custom():
@@ -473,6 +494,7 @@ main_options.pack()
 
 file_selector = tk.Frame(main_options)
 output_selector = tk.Frame(main_options)
+fl_selector = tk.Frame(main_options)
 
 file_label = tk.Label(file_selector, text="File path: ")
 file_label.grid(row=0, column=0, sticky=tk.W)
@@ -488,12 +510,28 @@ entry2.grid(row=0, column=1)
 button1 = tk.Button(output_selector, text="OK", command=get_name)
 button1.grid(row=0, column=2)
 
+entry3 = tk.Entry(fl_selector)
+entry4 = tk.Entry(fl_selector)
+first_label = tk.Label(fl_selector, text="First Decision: ")
+last_label = tk.Label(fl_selector, text="Ending Decision: ")
+
+entry3.grid(row=0, column=1)
+entry4.grid(row=1, column=1)
+first_label.grid(row=0, column=0)
+last_label.grid(row=1, column=0)
+
+fl_button = tk.Button(fl_selector, text="OK", command=get_fl)
+fl_button.grid(row=2, column=2)
+
 file_selector.pack()
 label1 = tk.Label(main_options, text="")
 label1.pack()
 output_selector.pack()
 label2 = tk.Label(main_options, text="")
 label2.pack()
+fl_selector.pack()
+fl_confirm = tk.Label(main_options, text="")
+fl_confirm.pack()
 
 
 
@@ -581,7 +619,12 @@ all_widgets = [
     heading,
     title,
     subtitle,
-    padding
+    padding,
+    first_label,
+    last_label,
+    fl_button,
+    fl_selector,
+    fl_confirm
 ]
 
 fill_options = [
@@ -589,7 +632,9 @@ fill_options = [
     jump_entry,
     option_seperator_entry,
     newline_enter,
-    entry2
+    entry2,
+    entry3,
+    entry4
 ]
 
 small_text = [
@@ -601,8 +646,10 @@ small_text = [
     label2,
     subtitle,
     theme_toggle,
-    dark_toggle
+    dark_toggle,
+    fl_confirm
 ]
+
 
 set_colors()
 root.mainloop()

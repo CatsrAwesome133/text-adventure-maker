@@ -68,7 +68,7 @@ d3 > try to analyze them
 You take a step closer and study the runes carefully.
 ...
 You have no idea what you're looking at.
-
+[G]
 
 
 #E fist
