@@ -481,7 +481,7 @@ heading = tk.Frame(container)
 heading.pack()
 
 title = tk.Label(heading, text="Text Adventure Maker", font=("Garamond", 18, "bold"),)
-subtitle = tk.Label(heading, text="(Script -> Python Dictionary)")
+subtitle = tk.Label(heading, text="(Script -> Playable Game)")
 theme = tk.IntVar()
 
 theme_container = tk.Frame(heading)
