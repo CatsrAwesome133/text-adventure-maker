@@ -64,6 +64,8 @@ def set_colors():
         i.configure(fg=colors["small"])
         if isinstance(i, tk.Checkbutton) and not dark.get():
             i.configure(selectcolor=colors["fg"])
+        if isinstance(i, tk.Checkbutton):
+            i.configure(activeforeground=colors['small'])
 
     button3.configure(bg=colors["bg"], fg=colors["fg"])
     if platform == "darwin":
@@ -575,11 +577,11 @@ confirm4 = tk.Label(custom_options, text="")
 
 
 
-end_label = tk.Label(container,text="")
-end_label.pack()
-
 button3 = tk.Button(container, text="Start Compiling", width=15, command=process)
 button3.pack()
+
+end_label = tk.Label(container,text="")
+end_label.pack()
 
 label3 = tk.Label(main_options, text="")
 label3.pack()
