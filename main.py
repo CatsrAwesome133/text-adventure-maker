@@ -23,6 +23,39 @@ customs = {
     "opts": "",
 }
 
+colors = {"fg": "ivory1",
+          "bg": "ivory4",
+          "small": "ivory3"}
+
+
+
+def set_colors():
+    global colors
+
+    root.configure(bg=colors["fg"])
+    custom_options.configure(bg=colors["fg"])
+    main_options.configure(bg=colors["fg"])
+
+    for i in all_widgets:
+        i.configure(bg=colors["fg"])
+        if isinstance(i, tk.Label) or isinstance(i, tk.Checkbutton):
+            i.configure(fg=colors["bg"])
+        if isinstance(i, tk.Button):
+            i.configure(highlightbackground=colors["fg"], fg=colors["bg"])
+            i.configure(activebackground=colors["small"], activeforeground=colors["fg"])
+        if isinstance(i, tk.Checkbutton):
+            i.configure(activebackground=colors["fg"], activeforeground=colors["bg"])
+
+    for i in fill_options:
+        i.configure(bg=colors["bg"],fg=colors["fg"])
+        i.configure(highlightbackground=colors["fg"])
+
+    for i in small_text:
+        i.configure(fg=colors["small"])
+
+    button3.configure(bg=colors["bg"], fg=colors["fg"])
+    if platform == "darwin":
+        button3.configure(fg=colors["bg"])
 
 
 def process(newline="··> ", new_decision_indicator="#", jump=None, opt_sep=">"):
@@ -46,6 +79,10 @@ def process(newline="··> ", new_decision_indicator="#", jump=None, opt_sep=">"
         opt_sep = customs["opts"]
 
 
+    if path is None or name is None:
+            label3.config(text="You're missing some inputs. Please fill them out and try again.")
+            return
+    
     try:
         open(f"{name}.py", "x")
     except FileExistsError:
@@ -55,10 +92,7 @@ def process(newline="··> ", new_decision_indicator="#", jump=None, opt_sep=">"
     print(newline,"; ", new_decision_indicator,"; ", jump,"; ", option_seperator_entry)
 
 
-
-    if path is None or name is None:
-        label3.config(text="You're missing some inputs. Please fill them out and try again.")
-        return
+    
 
     file_path = path
     file_name = name
@@ -339,6 +373,21 @@ def get_custom():
             i[0] = ""
             i[1].grid_forget()
 
+
+def theme_switch():
+    global colors
+
+    if theme.get():
+        colors = {"fg": "azure1",
+                  "bg": "azure4",
+                  "small": "azure3"}
+    else:
+        colors = {"fg": "ivory1",
+                  "bg": "ivory4",
+                  "small": "ivory3"}
+
+    set_colors()
+
     
 
 
@@ -416,9 +465,11 @@ confirm2 = tk.Label(custom_options, text="")
 confirm3 = tk.Label(custom_options, text="")
 confirm4 = tk.Label(custom_options, text="")
 
+theme = tk.IntVar()
+theme_toggle = tk.Checkbutton(custom_options, text="Use Alternate Menu Colors", variable=theme, command=theme_switch)
+theme_toggle.grid(row=19, column=1)
 
-label3 = tk.Label(main_options, text="")
-label3.pack()
+
 
 end_label = tk.Label(container,text="")
 end_label.pack()
@@ -426,7 +477,11 @@ end_label.pack()
 button3 = tk.Button(container, text="Start Compiling", width=15, command=process)
 button3.pack()
 
-# colors!
+label3 = tk.Label(main_options, text="")
+label3.pack()
+
+
+# stuff for colors
 all_widgets = [
     root,
     container,
@@ -455,6 +510,7 @@ all_widgets = [
     confirm4,
     file,
     end_label,
+    theme_toggle
 ]
 
 fill_options = [
@@ -474,30 +530,5 @@ small_text = [
     label2
 ]
 
-colors = {"fg": "ivory1",
-          "bg": "ivory4",
-          "small": "ivory3"}
-
-root.configure(bg=colors["fg"])
-custom_options.configure(bg=colors["fg"])
-main_options.configure(bg=colors["fg"])
-
-for i in all_widgets:
-    i.configure(bg=colors["fg"])
-    if isinstance(i, tk.Label) or isinstance(i, tk.Checkbutton):
-        i.configure(fg=colors["bg"])
-    if isinstance(i, tk.Button):
-        i.configure(highlightbackground=colors["fg"], fg=colors["bg"])
-
-for i in fill_options:
-    i.configure(bg=colors["bg"],fg=colors["fg"])
-    i.configure(highlightbackground=colors["fg"])
-
-for i in small_text:
-    i.configure(fg=colors["small"])
-
-button3.configure(bg=colors["bg"], fg=colors["fg"])
-if platform == "darwin":
-    button3.configure(fg=colors["bg"])
-
+set_colors()
 root.mainloop()
