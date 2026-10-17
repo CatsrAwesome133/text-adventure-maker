@@ -248,6 +248,7 @@ def process(newline="··> ", new_decision_indicator="#", jump=None, opt_sep=">"
             written_line = item + " = Decision(" + str(current[item]) + ")\n"
             f.write(written_line)
         f.write(all_decisions + "}\n")
+        end_label.config(text="Compiling Complete")
 
         # writes out the first and last decisions
         f.write(f"first_option = {repr(first_option)}\n")
@@ -259,7 +260,6 @@ def process(newline="··> ", new_decision_indicator="#", jump=None, opt_sep=">"
         end_label.config(text="Writing Complete - you can play your game now!")
 
     print("Completed")
-    end_label.config(text="Compiling Complete")
 
 
 
