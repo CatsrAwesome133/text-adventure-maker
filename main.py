@@ -241,6 +241,8 @@ def get_name():
 
 
 def custom():
+    global customs
+
     if custom_ind.get():
         label4.grid(row=5, column=0, sticky=tk.NE)
 
@@ -270,6 +272,7 @@ def custom():
         new_decision_entry.grid_forget()
         jump_entry.grid_forget()
         option_seperator_entry.grid_forget()
+
 
 
 def check_new_d():
@@ -318,10 +321,10 @@ def get_custom():
     }
 
     stuff=[
-        [customs["new_d"], confirm1, "New Decision Indicator", 18],
-        [customs["jump"], confirm2, "Next Decision Indicator", 19],
-        [customs["opts"], confirm3, "Option Seperator", 20],
-        [customs["new_line"], confirm4, "New Line Symbol", 21]
+        [customs["new_d"],    confirm1, "New Decision Indicator",  18],
+        [customs["jump"],     confirm2, "Next Decision Indicator", 19],
+        [customs["opts"],     confirm3, "Option Seperator",        20],
+        [customs["new_line"], confirm4, "New Line Symbol",         21]
     ]
 
     for i in stuff:
@@ -329,6 +332,11 @@ def get_custom():
             i[1].config(text=f"{i[2]}: {i[0]}")
             i[1].grid(row=i[3], column=0)
         else:
+            i[1].grid_forget()
+
+    if not custom_ind.get():
+        for i in stuff:
+            i[0] = ""
             i[1].grid_forget()
 
     
